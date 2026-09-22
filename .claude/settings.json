@@ -1,0 +1,53 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(**/*.p8)",
+      "Read(**/*.p12)",
+      "Read(**/*.jks)",
+      "Read(**/*.keystore)",
+      "Read(**/*.mobileprovision)",
+      "Bash(eas submit *)",
+      "Bash(npx eas-cli submit *)",
+      "Bash(npx eas-cli@latest submit *)",
+      "Bash(git push --force *)",
+      "Bash(git push -f *)",
+      "Bash(git reset --hard *)",
+      "Bash(npm publish *)"
+    ],
+    "allow": [
+      "Bash(npx tsc *)",
+      "Bash(npx jest *)",
+      "Bash(npm test *)",
+      "Bash(npx expo install *)",
+      "Bash(npx expo-doctor *)",
+      "Bash(npx expo export *)",
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(node factory/loop.mjs status)",
+      "Bash(npm run typecheck)",
+      "Bash(npm run factory:status)",
+      "Bash(npm run factory:prd)",
+      "Bash(npm run factory:spec)",
+      "Bash(node factory/prd.mjs lint *)",
+      "Bash(node factory/prd.mjs lint)",
+      "Bash(node factory/loop.mjs trace *)",
+      "Bash(npm run factory:trace *)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/rails.mjs"
+          }
+        ]
+      }
+    ]
+  }
+}

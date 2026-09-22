@@ -1,0 +1,25 @@
+{
+  "features": [
+    {
+      "id": "F001",
+      "title": "The app launches to a home screen",
+      "acceptance": [
+        "shows the app title as a header",
+        "keeps every text element reachable by a screen reader",
+        "keeps content clear of the system bars on every edge"
+      ],
+      "needsDevice": true,
+      "status": "passing",
+      "tests": [
+        "spec/F001-launch.test.tsx"
+      ],
+      "oracle": {
+        "spec/F001-launch.test.tsx": "9b4c7c2f42b785af43f0881704d960afc6e4bd19d911110fb58f7163bfbf6cb9",
+        ".maestro/launch.yml": "37ae0eba9004bcf1988c4b84fe2254ebaeec0916483fafd4294bf420f915279c"
+      },
+      "attempts": 0,
+      "depth": 0,
+      "greenAtPlan": true
+    }
+  ]
+}

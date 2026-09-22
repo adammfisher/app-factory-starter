@@ -1,0 +1,32 @@
+# Release cannot be undone, so a person approves it. Everything before and after the
+# approval is machinery. Run with:  npm run release:cloud
+name: release
+jobs:
+  build_android:
+    type: build
+    params:
+      platform: android
+      profile: production
+  build_ios:
+    type: build
+    params:
+      platform: ios
+      profile: production
+  approve:
+    needs: [build_android, build_ios]
+    type: require-approval
+  submit_android:
+    needs: [approve]
+    type: submit
+    params:
+      build_id: ${{ needs.build_android.outputs.build_id }}
+  submit_ios:
+    needs: [approve]
+    type: submit
+    params:
+      build_id: ${{ needs.build_ios.outputs.build_id }}
+  deploy_web:
+    needs: [approve]
+    type: deploy
+    params:
+      prod: true

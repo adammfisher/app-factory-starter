@@ -1,0 +1,46 @@
+{
+  "gate": [
+    {
+      "name": "typecheck",
+      "cmd": "npx tsc --noEmit"
+    },
+    {
+      "name": "spec",
+      "cmd": "npx jest --ci {tests}"
+    },
+    {
+      "name": "regression",
+      "cmd": "npx jest --ci"
+    },
+    {
+      "name": "web",
+      "cmd": "npx expo export --platform web --output-dir dist-web"
+    }
+  ],
+  "ladder": {
+    "retry": 2,
+    "repair": 1
+  },
+  "budget": {
+    "maxCostUsdPerRun": 20,
+    "maxTurns": 40,
+    "maxContinuations": 2
+  },
+  "agent": {
+    "cmd": "claude",
+    "permissionMode": "acceptEdits",
+    "extraFlags": [
+      "--permission-prompts",
+      "none"
+    ],
+    "models": {},
+    "progress": "json"
+  },
+  "locked": [
+    "factory/",
+    ".claude/"
+  ],
+  "plan": {
+    "maxFeaturesPerRequirement": 4
+  }
+}

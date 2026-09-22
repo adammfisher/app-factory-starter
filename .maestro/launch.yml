@@ -1,0 +1,9 @@
+appId: com.visudo.tipsplit
+name: launch
+---
+- launchApp:
+    clearState: true
+- assertVisible:
+    id: 'app-root'
+- assertVisible: 'Tip Split'
+- takeScreenshot: launch

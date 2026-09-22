@@ -1,0 +1,38 @@
+# Every push to main: build iOS and Android in the cloud, run every Maestro flow on a simulator
+# and an emulator, and publish a web preview. No local Xcode or Android toolchain is involved.
+# Syntax reference: https://docs.expo.dev/eas/workflows/syntax/  (the maestro job type is alpha)
+name: e2e
+on:
+  push:
+    branches: ['main']
+jobs:
+  build_android:
+    type: build
+    params:
+      platform: android
+      profile: e2e-test
+  build_ios:
+    type: build
+    params:
+      platform: ios
+      profile: e2e-test
+  test_android:
+    needs: [build_android]
+    type: maestro
+    runs_on: linux-medium-nested-virtualization
+    params:
+      build_id: ${{ needs.build_android.outputs.build_id }}
+      flow_path: '.maestro'
+      retries: 1
+  test_ios:
+    needs: [build_ios]
+    type: maestro
+    runs_on: macos-medium
+    params:
+      build_id: ${{ needs.build_ios.outputs.build_id }}
+      flow_path: '.maestro'
+      retries: 1
+  web_preview:
+    type: deploy
+    params:
+      alias: preview

@@ -1,0 +1,12 @@
+[
+  { "name": "feedback never reaches the builder", "file": "factory/loop.mjs", "find": "failure: failureBlock(feature), answers:", "replace": "failure: '', answers:", "mustFail": "F001 fails, receives the reason, then passes" },
+  { "name": "oracle drift is not detected", "file": "factory/gate.mjs", "find": ".filter(([file, hash]) => sha(join(cwd, file)) !== hash)", "replace": ".filter(() => false)", "mustFail": "F002 attempt 1: a weakened test is caught" },
+  { "name": "environment failures are retried instead of routed", "file": "factory/loop.mjs", "find": "feature.lastFailure?.class === 'environment' ? 'repair' : planned", "replace": "planned", "mustFail": "F004 environment failure is routed to repair" },
+  { "name": "a changed requirement is not re-derived", "file": "factory/loop.mjs", "find": "if (hashes[f.requirement] !== f.reqHash) supersede(", "replace": "if (false) supersede(", "mustFail": "only the changed requirement is re-derived" },
+  { "name": "a stale SPEC.md is accepted", "file": "factory/prd.mjs", "find": "return specStamp(readFileSync(specFile, 'utf8')) === current ? { ok: true }", "replace": "return true ? { ok: true }", "mustFail": "build refuses while SPEC.md is behind the PRD" },
+  { "name": "proposals for covered requirements are accepted", "file": "factory/loop.mjs", "find": "if (!needIds.has(reqId)) {", "replace": "if (false) {", "mustFail": "proposals for an already-covered requirement are ignored" },
+  { "name": "an over-split requirement is accepted", "file": "factory/loop.mjs", "find": "if (list.length > cap) {", "replace": "if (false) {", "mustFail": "an over-split requirement is refused" },
+  { "name": "plan ignores the budget", "file": "factory/loop.mjs", "find": "if (overBudget()) stopForBudget('plan');\n    await writeOracle", "replace": "await writeOracle", "mustFail": "plan stops at the budget" },
+  { "name": "a turn-ceiling exit is not continued", "file": "factory/loop.mjs", "find": "!/max_turns/.test(result.reason ?? '')", "replace": "true", "mustFail": "F003 ran out of turns, was continued once" },
+  { "name": "the ledger forgery is not discarded", "file": "factory/loop.mjs", "find": "if (readFileSync(at(file), 'utf8') !== snapshot) { writeFileSync(at(file), snapshot); restored.push(file); }", "replace": "", "mustFail": "F002 attempt 2: a forged ledger is discarded" }
+]

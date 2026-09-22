@@ -1,0 +1,62 @@
+{
+  "name": "app-factory-starter",
+  "version": "0.1.0",
+  "private": true,
+  "main": "expo-router/entry",
+  "scripts": {
+    "start": "expo start",
+    "ios": "expo run:ios",
+    "android": "expo run:android",
+    "web": "expo start --web",
+    "typecheck": "tsc --noEmit",
+    "test": "jest --ci",
+    "factory:prd": "node factory/prd.mjs lint",
+    "factory:spec": "node factory/prd.mjs spec",
+    "factory:preflight": "node factory/preflight.mjs",
+    "factory:plan": "node factory/loop.mjs plan",
+    "factory:build": "node factory/loop.mjs build",
+    "factory:status": "node factory/loop.mjs status",
+    "factory:trace": "node factory/loop.mjs trace",
+    "factory:lock": "node factory/loop.mjs lock",
+    "factory:selftest": "node factory/selftest.mjs",
+    "factory:guards": "node factory/guards.mjs",
+    "e2e:cloud": "npx eas-cli@latest workflow:run .eas/workflows/e2e.yml",
+    "release:cloud": "npx eas-cli@latest workflow:run .eas/workflows/release.yml"
+  },
+  "dependencies": {
+    "@expo/metro-runtime": "~6.1.2",
+    "expo": "~54.0.37",
+    "expo-build-properties": "~1.0.10",
+    "expo-constants": "~18.0.14",
+    "expo-dev-client": "~6.0.21",
+    "expo-linking": "~8.0.12",
+    "expo-router": "~6.0.24",
+    "expo-splash-screen": "~31.0.13",
+    "expo-status-bar": "~3.0.9",
+    "expo-system-ui": "~6.0.9",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "react-native": "0.81.5",
+    "react-native-gesture-handler": "~2.28.0",
+    "react-native-reanimated": "~4.1.1",
+    "react-native-safe-area-context": "~5.6.0",
+    "react-native-screens": "~4.16.0",
+    "react-native-web": "^0.21.0",
+    "react-native-worklets": "0.5.1"
+  },
+  "devDependencies": {
+    "@testing-library/react-native": "13.2.2",
+    "@types/jest": "29.5.14",
+    "@types/react": "19.1.17",
+    "jest": "29.7.0",
+    "jest-expo": "54.0.18",
+    "react-test-renderer": "19.1.0",
+    "typescript": "5.9.3"
+  },
+  "overrides": {
+    "expo": "~54.0.37",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "react-test-renderer": "19.1.0"
+  }
+}
