@@ -4,6 +4,7 @@
 // product code without a prompt, and the rails hook stops it writing a test.
 //   npm run factory:preflight        exit 0 ready · 1 something needs attention
 import { existsSync, readFileSync, rmSync } from 'node:fs';
+import { homedir } from 'node:os';
 import { join } from 'node:path';
 import { runAgent } from './agent.mjs';
 
@@ -13,6 +14,10 @@ const product = join(cwd, 'src/__preflight.txt');
 const locked = join(cwd, 'spec/__preflight.txt');
 let problems = 0;
 const report = (ok, text, hint) => { console.log(`${ok ? '  ok ' : 'CHECK'} ${text}`); if (!ok) { problems += 1; if (hint) console.log(`       ${hint}`); } };
+
+// No agent call: agents never receive AWS credentials (agent.mjs strips them), but the safest shell has none.
+const aws = [...Object.keys(process.env).filter((k) => k.startsWith('AWS_')), ...['credentials', 'config'].map((f) => join(homedir(), '.aws', f)).filter(existsSync)];
+console.log(aws.length ? `WARN  AWS credentials are reachable from this shell (${aws.join(', ')}). Agents never receive them, but run the loop where no AWS credentials exist.` : '  ok  no AWS credentials in this shell');
 
 const result = await runAgent({
   phase: 'build',

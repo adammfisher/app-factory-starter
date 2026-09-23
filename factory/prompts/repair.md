@@ -5,6 +5,6 @@ A check keeps failing for a reason that may live outside the feature code: tooli
 
 {failure}
 
-Find the cause and repair it. You may edit configuration files and package.json, install packages with `npx expo install <package>`, add Jest mocks under __mocks__/, and add a `.web.ts` fallback for a native-only module. The tests, factory/, .claude/, PRD.md, SPEC.md, features.json and questions.json are locked. Then make the check pass.
+Find the cause and repair it. Work in app/, src/ and infra/ (which must pass `node factory/infra.mjs check`). You may also edit configuration files and package.json, install packages with `npx expo install <package>`, add Jest mocks under __mocks__/, and add a `.web.ts` fallback for a native-only module. The tests, factory/, .claude/, PRD.md, SPEC.md, features.json and questions.json are locked. Then make the check pass.
 
 Before you finish, run `npx tsc --noEmit` and `npx jest --ci {tests}`.

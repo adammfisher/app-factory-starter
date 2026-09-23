@@ -16,3 +16,6 @@ factory/state/*
 .DS_Store
 dist-web/
 .idea/
+.terraform/
+*.tfstate
+*.tfstate.backup

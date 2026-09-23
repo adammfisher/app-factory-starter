@@ -13,7 +13,7 @@ Clone it, or mark it a GitHub template, to start every new app. It ships with a 
 | 3. Interview | `/prd` in Claude Code | Claude asks about every refusal, every ambiguity and every open decision. Product questions only. Answers are written into the PRD, keys are proposed for each requirement, you approve the diff, and it is committed. |
 | 4. Spec | `npm run factory:spec` | `SPEC.md` is generated from the PRD and stamped with the PRD's hash. It is never edited by hand. If the PRD changes, the loop refuses to run until the spec is regenerated. |
 | 5. Plan | `npm run factory:plan` | An agent splits requirements into features. For each, a second agent writes the acceptance tests first; the loop proves them failing and locks them by hash. Resumable. A changed requirement re-derives only its own features. |
-| 6. Build | `npm run factory:build` | One fresh agent per feature. The gate runs typecheck, that feature's tests, every test, then a web export. Green: the loop marks it passing and commits. Red: the failure goes into the next attempt. |
+| 6. Build | `npm run factory:build` | One fresh agent per feature. The gate runs typecheck, the infrastructure policy, Terraform validate, that feature's tests, every test, then a web export. Green: the loop marks it passing and commits. Red: the failure goes into the next attempt. |
 | 7. Devices and web | push to `main` | EAS builds iOS and Android in the cloud, runs every Maestro flow on a simulator and an emulator, and publishes a web preview. No local Xcode or Android setup. |
 | 8. Release | `npm run release:cloud` | Production builds, then a `require-approval` step that waits for you, then store submission and the production web deploy. |
 
@@ -47,6 +47,33 @@ Every gate writes `factory/state/results/<runId>/result.json`: one step per stag
 
 `npm run factory:status` prints the inbox first, then a reading per requirement (`met`, `unmet`, `unverifiable`) read from the ledger, then the features.
 
+## Infrastructure
+
+An app may add AWS infrastructure under `infra/`. Everything built there must scale to zero: with no traffic, the bill is zero apart from data at rest. A deterministic check in the gate enforces this; instructions alone do not. Agents may write infrastructure. They never apply it and never hold AWS credentials.
+
+The rules, all data in `factory/infra-policy.json` (Terraform 1.16.3, AWS provider 6.66.0, pinned there):
+
+- **Source form.** Terraform JSON syntax (`*.tf.json`) only. A `.tf` (HCL) file anywhere under `infra/` is refused, because the checker cannot read it. `module` blocks are refused. Every attribute the policy inspects must be a literal; a value containing `${` is refused. The one exception is a companion that names its resource by direct reference (`"bucket": "${aws_s3_bucket.assets.id}"`).
+- **Allowlist.** Only listed types, each with its conditions: Lambda (no VPC, no managed instances, a log group `/aws/lambda/<name>`), HTTP and REST APIs (no REST cache cluster), DynamoDB (`PAY_PER_REQUEST`), S3 (every bucket has a lifecycle configuration), CloudFront (`sni-only`), Cognito, SQS, SNS, EventBridge, Scheduler, Step Functions, AppSync (no cache), IAM, log groups (retention 1 to 30 days), SSM (standard tier), ACM and Route 53 records, Bedrock guardrails, agents and knowledge bases (vectors in S3 Vectors only).
+- **Always refused.** Anything that bills while idle: EC2, ECS, EKS, App Runner, SageMaker endpoints, NAT gateways, load balancers, Elastic IPs, VPC endpoints, RDS and Aurora, ElastiCache, OpenSearch, Redshift, Kinesis, MSK, MQ, and every kind of provisioned capacity. No exception can allow these; that takes an edit to the policy itself.
+- **Fixed monthly charges.** Route 53 zones, Secrets Manager, customer-managed KMS keys, alarms, dashboards and WAF are refused unless the owner lists them in `exceptions`. The refusal names the free substitute: SSM SecureString instead of Secrets Manager, AWS-managed keys instead of KMS keys, one hosted zone at the account level.
+
+An exception names one resource and who approved it:
+
+```json
+"exceptions": [
+  { "address": "aws_secretsmanager_secret.partner_key", "reason": "the partner rotates it through Secrets Manager", "monthlyUsd": 0.4, "approved": "owner 2026-09-23" }
+]
+```
+
+An exception that matches no resource is refused (`infra-exception-stale`), so none linger. The checker prints the monthly total.
+
+Two gate stages run after typecheck. `infra-policy` runs `node factory/infra.mjs check`; it needs no Terraform and passes when there is no `infra/`. `infra-validate` runs `terraform init -backend=false` and `terraform validate` in `infra/`, only when `infra/` exists; a missing Terraform is classed as an environment failure. Each refusal is one line, `REFUSED <code> · <address> · <fix>`, and the fix is the next builder's instruction. `node factory/infra.mjs plan <plan.json>` applies the same type and attribute rules to `terraform show -json` output, child modules included.
+
+Agents run with every `AWS_*` variable removed and the credential files pointed at `/dev/null`. `terraform apply`, `destroy`, `import` and `state`, the `aws` CLI and `cdk deploy` are denied, as is reading `~/.aws`, state files and variable files. `npm run factory:preflight` warns if the shell running the loop can reach AWS credentials.
+
+Not built yet: the approval pipeline that plans, checks the plan and applies with a person's sign-off; the account-level service control policy that makes the same rules hold in AWS itself; Aurora, when an app needs a relational database.
+
 ## Light now, able to scale
 
 Three seams differ between a one-person app and a multi-repo estate. Only the left column is built.
@@ -65,7 +92,7 @@ Everything else is the same at both sizes: the template, requirement ids, refusa
 npm install                     # generates the lockfile on your machine
 npm run typecheck && npm test   # the seed feature F001 is green
 npm run factory:selftest        # the front door and the whole loop against a fake agent, $0
-npm run factory:guards          # breaks the loop ten ways and proves the self-test catches each, $0, about a minute
+npm run factory:guards          # breaks the loop sixteen ways and proves the self-test catches each, $0, about a minute
 git init -b main && git add -A && git commit -m "init from app factory starter"
 npm run factory:preflight       # one cheap real agent call: flags, permissions, rails hook
 npm run factory:prd             # the sample PRD has one deliberate refusal
@@ -82,7 +109,7 @@ Things that could not be verified outside your machine (`factory:preflight` chec
 
 ## What is verified, and what is not
 
-Verified here: dependencies install; `tsc` and Jest pass; the web build exports; the real four-stage gate goes red for a broken screen, a type error, a tampered test and an import that cannot bundle for web; the self-test's 51 checks pass; all ten guard mutations fire.
+Verified here: dependencies install; `tsc` and Jest pass; the web build exports; the real four-stage gate goes red for a broken screen, a type error, a tampered test and an import that cannot bundle for web; the self-test's 80 checks pass; all sixteen guard mutations fire.
 
 Found by the first real run and fixed in this version: a second `plan` accepted proposals for requirements already covered (duplicates); the plan prompt said "smallest features" and got one feature per criterion; `plan` had no budget check; any edit to a requirement, including a re-tag or a priority change, superseded its features (the hash now covers only the statement and the criteria, and a re-tag updates the key in place). Cost and attempts per feature are still unknown.
 

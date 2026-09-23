@@ -2,7 +2,7 @@
 // A $0 stand-in for `claude -p`, used only by factory/selftest.mjs. It speaks the same
 // protocol (flags in, one JSON result out) and misbehaves on purpose so every rung of
 // the ladder and every rail gets exercised without paying for a model.
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { appendFileSync, mkdirSync, writeFileSync } from 'node:fs';
 
 const args = process.argv.slice(2);
 const prompt = args[args.indexOf('-p') + 1] ?? '';
@@ -18,6 +18,8 @@ const work = (value) => { mkdirSync('src', { recursive: true }); writeFileSync(`
 const TITLES = { 'R-001': 'retry works', 'R-002': 'cheats then blocks', 'R-003': 'first time', 'R-004': 'environment' };
 
 if (process.env.FAKE_SLOW) await new Promise((r) => setTimeout(r, 200));
+// what the runner handed over: the self-test asserts no AWS credential arrives
+if (process.env.FAKE_RECORD_ENV) writeFileSync(process.env.FAKE_RECORD_ENV, JSON.stringify(Object.fromEntries(Object.entries(process.env).filter(([k]) => k.startsWith('AWS_') || k === 'FACTORY_PHASE'))));
 
 if (phase === 'plan') {
   const wanted = (prompt.split('Features that already exist')[0].match(/^R-\d{3}(?= )/gm) ?? []).filter((r, i, all) => all.indexOf(r) === i && TITLES[r]); // ids at line start: the uncovered list, not the prompt's example
@@ -34,6 +36,11 @@ if (phase === 'plan') {
 } else if (phase === 'build' || phase === 'repair') {
   if (process.env.FAKE_MAXTURNS === id && !prompt.includes('ran out of turns')) { emit({ type: 'result', subtype: 'error_max_turns', is_error: true, total_cost_usd: 0.01 }); process.exit(1); }
   const sawFailure = prompt.includes('The last attempt failed');
+  if (process.env.FAKE_INFRA === id) { // attempt 1 writes an always-on NAT gateway; once told why, it swaps it for a queue
+    appendFileSync('factory/state/fake-prompts.log', `${prompt}\n=====\n`);
+    mkdirSync('infra', { recursive: true });
+    writeFileSync('infra/main.tf.json', JSON.stringify({ resource: sawFailure ? { aws_sqs_queue: { jobs: { name: 'jobs' } } } : { aws_nat_gateway: { main: { subnet_id: 'subnet-1' } } } }));
+  }
   if (id === 'F001') work(sawFailure ? 'done' : 'wrong');            // passes only once the reason reaches it
   else if (id === 'F002') {
     work('wrong');

@@ -258,7 +258,7 @@ async function buildFeature(feature) {
     const restored = restoreRails(feature, before);
     if (result.ok) ask(feature.id, result.data.questions); // after the rails check, so a new question is never mistaken for tampering
     const gate = restored.length
-      ? { ok: false, steps: [{ id: 'rails', ok: false, seconds: 0, exitCode: null }], stage: 'rails', class: 'rules', cmd: null, exitCode: null, tail: `You changed locked files (restored): ${restored.join(', ')}. Work in app/ and src/ only.` }
+      ? { ok: false, steps: [{ id: 'rails', ok: false, seconds: 0, exitCode: null }], stage: 'rails', class: 'rules', cmd: null, exitCode: null, tail: `You changed locked files (restored): ${restored.join(', ')}. Work in app/, src/ and infra/ only.` }
       : runGate(feature, config.gate, cwd, stageLine);
     if (restored.length) say(`    rails: restored ${restored.join(', ')}`);
     const runId = writeArtifact(feature, phase, gate);

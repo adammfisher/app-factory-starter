@@ -14,7 +14,30 @@
       "Bash(git push --force *)",
       "Bash(git push -f *)",
       "Bash(git reset --hard *)",
-      "Bash(npm publish *)"
+      "Bash(npm publish *)",
+      "Bash(terraform apply)",
+      "Bash(terraform apply *)",
+      "Bash(terraform destroy)",
+      "Bash(terraform destroy *)",
+      "Bash(terraform import)",
+      "Bash(terraform import *)",
+      "Bash(terraform state)",
+      "Bash(terraform state *)",
+      "Bash(terraform taint)",
+      "Bash(terraform taint *)",
+      "Bash(terraform untaint)",
+      "Bash(terraform untaint *)",
+      "Bash(aws)",
+      "Bash(aws *)",
+      "Bash(cdk deploy)",
+      "Bash(cdk deploy *)",
+      "Bash(npx cdk)",
+      "Bash(npx cdk *)",
+      "Read(~/.aws/**)",
+      "Read(**/*.tfstate)",
+      "Read(**/*.tfstate.backup)",
+      "Read(**/*.tfvars)",
+      "Read(**/*.tfvars.json)"
     ],
     "allow": [
       "Bash(npx tsc *)",
@@ -34,7 +57,10 @@
       "Bash(node factory/prd.mjs lint *)",
       "Bash(node factory/prd.mjs lint)",
       "Bash(node factory/loop.mjs trace *)",
-      "Bash(npm run factory:trace *)"
+      "Bash(npm run factory:trace *)",
+      "Bash(terraform -chdir=infra init -backend=false *)",
+      "Bash(terraform -chdir=infra validate *)",
+      "Bash(node factory/infra.mjs *)"
     ]
   },
   "hooks": {

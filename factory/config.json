@@ -5,6 +5,14 @@
       "cmd": "npx tsc --noEmit"
     },
     {
+      "name": "infra-policy",
+      "cmd": "node factory/infra.mjs check"
+    },
+    {
+      "name": "infra-validate",
+      "cmd": "if [ -d infra ]; then terraform -chdir=infra init -backend=false -input=false -no-color && terraform -chdir=infra validate -no-color; fi"
+    },
+    {
       "name": "spec",
       "cmd": "npx jest --ci {tests}"
     },

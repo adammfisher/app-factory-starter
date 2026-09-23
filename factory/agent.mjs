@@ -38,6 +38,14 @@ export const SCHEMAS = {
   },
 };
 
+// Agents never hold AWS credentials: every AWS_* variable is dropped, and the SDKs' credential files
+// and instance metadata are switched off. FACTORY_PHASE is read by .claude/hooks/rails.mjs.
+export const agentEnv = (phase, env = process.env) => ({
+  ...Object.fromEntries(Object.entries(env).filter(([key]) => !key.startsWith('AWS_'))),
+  AWS_SHARED_CREDENTIALS_FILE: '/dev/null', AWS_CONFIG_FILE: '/dev/null', AWS_EC2_METADATA_DISABLED: 'true',
+  FACTORY_PHASE: phase,
+});
+
 const brief = (input = {}) => String(input.file_path ?? input.path ?? input.command ?? input.pattern ?? input.description ?? '').replace(/\s+/g, ' ').slice(0, 70);
 
 /** Resolves to { ok, data, cost, seconds, reason, stderr }. Prints a heartbeat, and tool activity in stream mode. */
@@ -58,7 +66,7 @@ export function runAgent({ phase, prompt, config, cwd }) {
   return new Promise((resolve) => {
     const started = Date.now();
     const seconds = () => Math.round((Date.now() - started) / 1000);
-    const child = spawn(cmd, args, { cwd, stdio: ['ignore', 'pipe', 'pipe'], env: { ...process.env, FACTORY_PHASE: phase } }); // FACTORY_PHASE is read by .claude/hooks/rails.mjs
+    const child = spawn(cmd, args, { cwd, stdio: ['ignore', 'pipe', 'pipe'], env: agentEnv(phase) });
     let stdout = ''; let stderr = ''; let pending = ''; let result = null; let done = false;
     const beat = setInterval(() => console.log(`    … ${phase} still working (${seconds()}s)`), Number(process.env.FACTORY_HEARTBEAT_MS) || 30000);
     const kill = setTimeout(() => child.kill('SIGTERM'), 90 * 60 * 1000);

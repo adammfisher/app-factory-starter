@@ -5,7 +5,7 @@ import { relative, resolve, sep } from 'node:path';
 
 const deny = (why) => { process.stderr.write(`BLOCKED (rails): ${why}\n`); process.exit(2); };
 const LOCKED_IN_LOOP = ['spec/', '.maestro/', 'factory/', '.claude/', 'features.json', 'questions.json', 'PRD.md', 'SPEC.md'];
-const SECRET = /(^|\/)\.env(\..*)?$|\.(p8|p12|jks|keystore|mobileprovision)$/;
+const SECRET = /(^|\/)\.env(\..*)?$|\.(p8|p12|jks|keystore|mobileprovision|tfstate|tfstate\.backup|tfvars|tfvars\.json)$/;
 
 let raw = '';
 process.stdin.on('data', (chunk) => { raw += chunk; }).on('end', () => {

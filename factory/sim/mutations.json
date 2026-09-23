@@ -8,5 +8,11 @@
   { "name": "an over-split requirement is accepted", "file": "factory/loop.mjs", "find": "if (list.length > cap) {", "replace": "if (false) {", "mustFail": "an over-split requirement is refused" },
   { "name": "plan ignores the budget", "file": "factory/loop.mjs", "find": "if (overBudget()) stopForBudget('plan');\n    await writeOracle", "replace": "await writeOracle", "mustFail": "plan stops at the budget" },
   { "name": "a turn-ceiling exit is not continued", "file": "factory/loop.mjs", "find": "!/max_turns/.test(result.reason ?? '')", "replace": "true", "mustFail": "F003 ran out of turns, was continued once" },
-  { "name": "the ledger forgery is not discarded", "file": "factory/loop.mjs", "find": "if (readFileSync(at(file), 'utf8') !== snapshot) { writeFileSync(at(file), snapshot); restored.push(file); }", "replace": "", "mustFail": "F002 attempt 2: a forged ledger is discarded" }
+  { "name": "the ledger forgery is not discarded", "file": "factory/loop.mjs", "find": "if (readFileSync(at(file), 'utf8') !== snapshot) { writeFileSync(at(file), snapshot); restored.push(file); }", "replace": "", "mustFail": "F002 attempt 2: a forged ledger is discarded" },
+  { "name": "an unknown resource type is allowed", "file": "factory/infra.mjs", "find": "if (!policy.allow[type]) {", "replace": "if (false) {", "mustFail": "infra refuses an unknown type (infra-type-not-allowed)" },
+  { "name": "an expression passes as a literal", "file": "factory/infra.mjs", "find": "if (literals && !literal(v)) {", "replace": "if (false) {", "mustFail": "infra refuses billing_mode set to ${var.mode} (infra-not-literal)" },
+  { "name": "an HCL file is ignored", "file": "factory/infra.mjs", "find": "files.filter((f) => f.endsWith('.tf')).map(", "replace": "[].map(", "mustFail": "infra refuses a .tf file (infra-hcl-present)" },
+  { "name": "an exception can allow an always-on type", "file": "factory/infra.mjs", "find": "const why = policy.alwaysOn[type] ?", "replace": "const why = false ?", "mustFail": "an exception cannot allow a NAT gateway (infra-exception-invalid)" },
+  { "name": "AWS credentials reach the agent", "file": "factory/agent.mjs", "find": ".filter(([key]) => !key.startsWith('AWS_'))", "replace": ".filter(() => true)", "mustFail": "no AWS credential reaches an agent" },
+  { "name": "log retention is not checked", "file": "factory/infra.mjs", "find": "range: () => !(Number.isInteger(n) && n >= c.min && n <= policy.logRetentionMaxDays),", "replace": "range: () => false,", "mustFail": "infra refuses log retention of 0 (infra-log-retention)" }
 ]

@@ -24,6 +24,7 @@ Install packages with `npx expo install <package>` so versions match the SDK. Ke
 6. Honour safe-area insets on every screen. Support light and dark. Layouts hold from a phone to a desktop browser: cap content width, never assume a touch screen.
 7. Offline first: data stays on the device unless SPEC.md says otherwise. No secrets in the repo. Never run `eas submit`.
 8. Ask the owner only for a fact, preference, credential or legal position. Give the default you will proceed on, and keep going.
+9. Infrastructure lives in `infra/` as `*.tf.json`, at the versions pinned in `factory/infra-policy.json`, and must pass that policy (`node factory/infra.mjs check`), which the gate enforces: everything scales to zero. Never plan or apply. Every network call from the app goes through one module, `src/api.ts` (with a `.web.ts` fallback if needed), and tests replace that module. Scale to zero means cold starts, so the app handles a slow first response.
 
 ## Commands
 `npm run typecheck` · `npm test` · `npx jest --ci spec/<file>` · `npx expo export --platform web --output-dir dist-web` · `npm run factory:status`
