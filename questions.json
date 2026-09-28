@@ -134,6 +134,24 @@
       "default": "The tests only check translate(\"\") → \"\" with no native calls. Whitespace-only text and recognize inputs are left to the implementation.",
       "blocking": false,
       "answer": null
+    },
+    {
+      "id": "Q016",
+      "feature": "F010",
+      "type": "preference",
+      "question": "For open(types, limit), should files of the wrong type be dropped before the limit is applied (so the limit counts only allowed files), or should the limit apply to everything chosen?",
+      "default": "Drop files of the wrong type first, then apply the limit to what's left; both kinds of dropped file count as skipped.",
+      "blocking": false,
+      "answer": null
+    },
+    {
+      "id": "Q017",
+      "feature": "F010",
+      "type": "preference",
+      "question": "On web the browser can't tell whether the person printed or cancelled. What should print(path) return there?",
+      "default": "Either \"printed\" or \"cancelled\" is accepted; the build will likely return \"printed\" once the print dialog has opened.",
+      "blocking": false,
+      "answer": null
     }
   ]
 }

@@ -233,9 +233,13 @@
       ],
       "key": "blocks.files.exchange",
       "reqHash": "e21b2df9c95a1514",
-      "status": "planned",
-      "tests": [],
-      "oracle": {},
+      "status": "todo",
+      "tests": [
+        "spec/F010-files-block.test.ts"
+      ],
+      "oracle": {
+        "spec/F010-files-block.test.ts": "e2c2a7fe1b328d68e26c5163b2f065e6dd3790786c472e264c1d7044d50b1ca4"
+      },
       "attempts": 0,
       "depth": 0
     },
