@@ -80,6 +80,14 @@ Things that could not be verified outside your machine (`factory:preflight` chec
 4. **Stream mode.** `"progress": "stream"` switches to `--output-format stream-json`. The docs confirm the stream ends with a `result` message; whether it carries `structured_output` is unconfirmed. Run `npm run factory:preflight` with it set before relying on it.
 5. **EAS.** `flow_path: '.maestro'` passes a directory (list files if EAS wants them); the `maestro` job type is alpha; the `deploy` job is assumed to export the web build itself.
 
+## Before the first store build
+
+1. Replace the five files in `assets/`, keeping their names and sizes: `icon.png` 1024 × 1024, opaque; `adaptive-icon.png` 1024 × 1024, transparent, artwork inside the centre 66 percent; `adaptive-icon-monochrome.png` 1024 × 1024, one colour on transparent; `splash-icon.png` 1024 × 1024, transparent; `favicon.png` 48 × 48.
+2. Fill in the `identity` block at the top of `app.config.ts`.
+3. Run `eas init` and paste the project id into `identity.easProjectId`.
+4. Add each public value with `eas env:create`, and list it in `.env.example` and `src/env.ts`. No secrets: everything in the app can be read by anyone who has it.
+5. A native-only package needs a development build (`eas build --profile development`), because Expo Go cannot load it.
+
 ## What is verified, and what is not
 
 Verified here: dependencies install; `tsc` and Jest pass; the web build exports; the real four-stage gate goes red for a broken screen, a type error, a tampered test and an import that cannot bundle for web; the self-test's 51 checks pass; all ten guard mutations fire.

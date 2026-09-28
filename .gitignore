@@ -6,6 +6,7 @@ android/
 coverage/
 .env
 .env.*
+!.env.example
 *.p8
 *.p12
 *.jks
