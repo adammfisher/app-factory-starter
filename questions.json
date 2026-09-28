@@ -89,6 +89,24 @@
       "default": "Tests only require 6 GiB and above to be \"downloadable\" and 4 GiB and below to be \"unavailable\"; the exact threshold between is left to the implementation.",
       "blocking": false,
       "answer": null
+    },
+    {
+      "id": "Q011",
+      "feature": "F007",
+      "type": "preference",
+      "question": "Should a failed download resolve { error: <code> } (not throw), and should a cancelled download resolve { error: \"cancelled\" } specifically?",
+      "default": "Yes: failures resolve { error: <any string> } and a cancel resolves { error: \"cancelled\" }, following the SPEC rule that blocks return error codes for expected outcomes.",
+      "blocking": false,
+      "answer": null
+    },
+    {
+      "id": "Q012",
+      "feature": "F007",
+      "type": "fact",
+      "question": "Does \"larger than 200 MB\" mean more than 200,000,000 bytes (decimal) or more than 200 × 1,048,576 bytes (binary)?",
+      "default": "Decimal (200,000,000 bytes). The tests use 150 MB and 2 GB, so either reading passes.",
+      "blocking": false,
+      "answer": null
     }
   ]
 }
