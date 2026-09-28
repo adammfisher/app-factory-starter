@@ -158,14 +158,14 @@
       ],
       "key": "blocks.ai.model",
       "reqHash": "cb0e45c352524ee4",
-      "status": "todo",
+      "status": "passing",
       "tests": [
         "spec/F007-ai-model-download.test.ts"
       ],
       "oracle": {
         "spec/F007-ai-model-download.test.ts": "9c44fd7b5bbdc87fbe033cab5afb7f28c0f0dc5ba11da674869c129e836f17c6"
       },
-      "attempts": 0,
+      "attempts": 1,
       "depth": 0
     },
     {

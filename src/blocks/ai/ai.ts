@@ -6,6 +6,11 @@ export type AiError = 'no-model' | 'too-long' | 'failed';
 export type Failure = { error: AiError };
 export type Result = string | Failure;
 
+// download() reports a whole percent, or that it is holding a large download until Wi-Fi.
+export type DownloadUpdate = number | 'waiting-for-wifi';
+export type DownloadError = 'cancelled' | 'failed' | 'not-available';
+export type DownloadResult = 'not-needed' | 'not-supported' | 'downloaded' | { error: DownloadError };
+
 // The most words one request may carry. Longer input is "too-long"; summarize splits at it.
 export const MAX_WORDS = 2000;
 
