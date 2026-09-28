@@ -80,6 +80,15 @@
       "default": "The tests always pass pageSize when size matters; the default is left to the implementation (auto is suggested).",
       "blocking": false,
       "answer": null
+    },
+    {
+      "id": "Q010",
+      "feature": "F006",
+      "type": "fact",
+      "question": "Does \"6 GB of memory\" mean 6 GiB (6×2^30 bytes) as reported by expo-device totalMemory, given that 6 GB phones often report a little less than that?",
+      "default": "Tests only require 6 GiB and above to be \"downloadable\" and 4 GiB and below to be \"unavailable\"; the exact threshold between is left to the implementation.",
+      "blocking": false,
+      "answer": null
     }
   ]
 }

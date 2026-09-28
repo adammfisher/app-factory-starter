@@ -134,9 +134,13 @@
       ],
       "key": "blocks.ai.generate",
       "reqHash": "9fda521334638295",
-      "status": "planned",
-      "tests": [],
-      "oracle": {},
+      "status": "todo",
+      "tests": [
+        "spec/F006-ai-block.test.ts"
+      ],
+      "oracle": {
+        "spec/F006-ai-block.test.ts": "1d579c0411379ed5c52462ee02b51208105df15933ee858e2c877dc6541356a3"
+      },
       "attempts": 0,
       "depth": 0
     },
