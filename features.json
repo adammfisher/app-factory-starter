@@ -282,9 +282,13 @@
       ],
       "key": "blocks.storage.records",
       "reqHash": "6c59d48f1934b8f6",
-      "status": "planned",
-      "tests": [],
-      "oracle": {},
+      "status": "todo",
+      "tests": [
+        "spec/F012-storage-block.test.ts"
+      ],
+      "oracle": {
+        "spec/F012-storage-block.test.ts": "20a88805961b1b13e83e8f7e2d01d3a4cd9cd3df58a29c82ef43db3c9c821e91"
+      },
       "attempts": 0,
       "depth": 0
     },
