@@ -197,6 +197,24 @@
       "default": "Keep the self-contained JavaScript writer and reader on all three platforms until the native PDFKit and PdfBox-Android writers are built.",
       "blocking": false,
       "answer": null
+    },
+    {
+      "id": "Q023",
+      "feature": "F006",
+      "type": "preference",
+      "question": "Is 5 GiB of reported memory the right cut-off for \"downloadable\"? Phones sold as 6 GB report a little under 6 GiB, and the tests only require 6 GiB to count as enough and 4 GiB as too little.",
+      "default": "Phones reporting 5 GiB or more are \"downloadable\"; below that is \"unavailable\".",
+      "blocking": false,
+      "answer": null
+    },
+    {
+      "id": "Q024",
+      "feature": "F006",
+      "type": "preference",
+      "question": "llama.rn was installed as ^0.13.0-rc.6, a pre-release. Should it be pinned to a stable release before the first release build?",
+      "default": "Keep ^0.13.0-rc.6 for now and re-check before release.",
+      "blocking": false,
+      "answer": null
     }
   ]
 }
