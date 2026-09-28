@@ -152,6 +152,24 @@
       "default": "Either \"printed\" or \"cancelled\" is accepted; the build will likely return \"printed\" once the print dialog has opened.",
       "blocking": false,
       "answer": null
+    },
+    {
+      "id": "Q018",
+      "feature": "F013",
+      "type": "preference",
+      "question": "When importArchive merges into a store that already has data, should the archive's settings overwrite the store's settings, and should archive files whose names already exist overwrite or be skipped? The criterion only says records with existing ids are skipped.",
+      "default": "Skip existing records (tested); leave existing settings and same-named files as they are and add only the ones missing. This case isn't tested.",
+      "blocking": false,
+      "answer": null
+    },
+    {
+      "id": "Q019",
+      "feature": "F013",
+      "type": "preference",
+      "question": "Should the added/skipped counts from importArchive count records only, or records plus files?",
+      "default": "Records only, as the test asserts.",
+      "blocking": false,
+      "answer": null
     }
   ]
 }
