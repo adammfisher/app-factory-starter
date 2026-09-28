@@ -2,11 +2,11 @@ import type { ExpoConfig } from 'expo/config';
 
 // Per app, change the identity block and the files in assets/. Nothing else is required.
 const identity = {
-  name: 'Tip Split',
-  slug: 'tip-split',
-  scheme: 'tipsplit',
-  bundleIdentifier: 'com.visudo.tipsplit',
-  package: 'com.visudo.tipsplit',
+  name: 'My App',
+  slug: 'my-app',
+  scheme: 'myapp',
+  bundleIdentifier: 'com.example.myapp',
+  package: 'com.example.myapp',
   version: '0.1.0',
   colors: {
     primary: '#2563EB',

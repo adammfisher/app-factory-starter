@@ -10,7 +10,7 @@
 | 6. Simple is a requirement | Four files run everything: `prd.mjs`, `loop.mjs`, `gate.mjs`, `agent.mjs`. SPEC generation uses no model. `npm run factory:status` prints machinery lines against product lines. `npm run factory:selftest` runs it all for $0. |
 
 ## The thread
-Objective → requirement `R-002` → key `tipsplit.calculator.split` → feature `F003` → tests in `spec/` → commit `feat(F003)` → (later) events named by the same key. A changed requirement supersedes only the features that cite it.
+Objective → requirement `R-002` → key `payments.autopay.schedule` → feature `F003` → tests in `spec/` → commit `feat(F003)` → (later) events named by the same key. A changed requirement supersedes only the features that cite it.
 
 ## The owner's role
 Own the PRD. Answer questions of four types: `fact`, `preference`, `credential`, `legal`. Review the PRD and the tests. Approve releases.

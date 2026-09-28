@@ -2,7 +2,7 @@
 
 One repo per app. Each repo is an Expo app (iOS, Android and web from one code base) plus a small loop that builds it with Claude Code, checks the work by machine, recovers from failures on its own, and brings you only the questions a person has to answer.
 
-Clone it, or mark it a GitHub template, to start every new app. It ships with a sample PRD for a small app called Tip Split so you can run the whole flow straight away.
+Clone it, or mark it a GitHub template, to start every new app. It ships without a PRD: add your own `PRD.md` (or run `/prd`) to start.
 
 ## The flow
 
@@ -53,7 +53,7 @@ Three seams differ between a one-person app and a multi-repo estate. Only the le
 
 | Seam | Here | At scale |
 |---|---|---|
-| Where the capability tree lives | Keys such as `tipsplit.history.save`, written in the PRD | A canonical tree in a context repo, validated by a compiler |
+| Where the capability tree lives | Keys such as `payments.autopay.schedule`, written in the PRD | A canonical tree in a context repo, validated by a compiler |
 | What the pin is | The PRD's content hash, stamped into `SPEC.md` | A registry snapshot |
 | Fan-out | One PRD, one spec, one repo | One PRD, impact resolution, a spec slice per repo |
 
@@ -68,9 +68,9 @@ npm run factory:selftest        # the front door and the whole loop against a fa
 npm run factory:guards          # breaks the loop ten ways and proves the self-test catches each, $0, about a minute
 git init -b main && git add -A && git commit -m "init from app factory starter"
 npm run factory:preflight       # one cheap real agent call: flags, permissions, rails hook
-npm run factory:prd             # the sample PRD has one deliberate refusal
+npm run factory:prd             # after you add PRD.md: lints it
 ```
-Then `/prd` in Claude Code. To skip the interview and go straight to planning, copy `factory/templates/PRD.sample-ready.md` over `PRD.md` and run `npm run factory:spec`.
+Then `/prd` in Claude Code to write or finish `PRD.md` from `factory/templates/PRD.template.md`.
 
 Things that could not be verified outside your machine (`factory:preflight` checks the first three):
 

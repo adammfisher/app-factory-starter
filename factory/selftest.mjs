@@ -24,22 +24,22 @@ const gates = (id) => events('gate').filter((e) => e.feature === id);
 
 // ---- 1. the front door: PRD lint and SPEC generation (no agent involved)
 console.log('PRD and SPEC');
-const ready = readFileSync(join(root, 'factory/templates/PRD.sample-ready.md'), 'utf8');
-check('green control: the interview-complete sample has no refusals', codes(ready, strict).length === 0, codes(ready, strict));
-check('a vague criterion is refused', codes(ready.replace('shows 33.34 each and 0.02 extra', 'is easy to read')).includes('prd-acceptance-vague'));
+const ready = readFileSync(join(root, 'factory/sim/PRD.fixture.md'), 'utf8');
+check('green control: the interview-complete fixture has no refusals', codes(ready, strict).length === 0, codes(ready, strict));
+check('a vague criterion is refused', codes(ready.replace('two taps show 10', 'is easy to read')).includes('prd-acceptance-vague'));
 check('a requirement with no acceptance criteria is refused', codes(ready.replace(/- Acceptance:\n(  - .*\n)+/, '')).includes('prd-requirement-no-acceptance'));
-check('a malformed key is refused', codes(ready.replace('tipsplit.calculator.tip', 'Tip Calculator')).includes('prd-key-bad-format'));
+check('a malformed key is refused', codes(ready.replace('example.counter.count', 'Counter Count')).includes('prd-key-bad-format'));
 check('a metric without a baseline is refused', codes(ready.replace('- Baseline: 0\n', '')).includes('prd-metric-missing-field'));
 check('a line outside the template shapes is refused, with its line number', lintPrd(parsePrd(ready.replace('- Type: new-capability', 'Type = new'))).some((r) => r.code === 'prd-format' && /line \d+/.test(r.where)));
 const draft = codes(readFileSync(join(root, 'factory/templates/PRD.template.md'), 'utf8'));
 check('the blank template is refused until it is filled in', draft.includes('prd-objective-empty') && draft.includes('prd-placeholder'));
-const open = ready.replace('## Not decided yet\n- None.', '## Not decided yet\n- Which colour?').replace('- Key: tipsplit.history.save\n', '');
+const open = ready.replace('## Not decided yet\n- None.', '## Not decided yet\n- Which colour?').replace('- Key: example.history.save\n', '');
 check('SPEC generation refuses open decisions and untagged requirements', ['prd-undecided', 'prd-key-missing'].every((c) => codes(open, strict).includes(c)) && codes(open).length === 0);
 const unapproved = ready.replace('- Status: ready', '- Status: draft');
 check('SPEC generation refuses a PRD the owner has not marked ready; the lint alone does not', codes(unapproved, strict).includes('prd-not-approved') && !codes(unapproved).includes('prd-not-approved'));
-const reformatted = ready.replace('- Priority: must\n- Statement: The person enters a bill amount,', '- Priority: should\n- Statement:  The person  enters a bill amount,');
+const reformatted = ready.replace('- Priority: must\n- Statement: The person taps a button to add', '- Priority: should\n- Statement:  The person  taps a button to  add');
 check('a re-tag, a priority change or a reformat does not change a requirement hash', JSON.stringify(requirementHashes(parsePrd(reformatted))) === JSON.stringify(requirementHashes(parsePrd(ready))));
-check('a changed criterion does change it', requirementHashes(parsePrd(ready.replace('shows 33.34 each', 'shows 33.33 each')))['R-002'] !== requirementHashes(parsePrd(ready))['R-002']);
+check('a changed criterion does change it', requirementHashes(parsePrd(ready.replace('two taps show 10', 'two taps show 11')))['R-002'] !== requirementHashes(parsePrd(ready))['R-002']);
 
 // ---- a throwaway project that uses the REAL prd.mjs, loop, gate, agent runner and prompts
 for (const f of ['loop.mjs', 'gate.mjs', 'agent.mjs', 'prd.mjs', 'prompts']) cpSync(join(root, 'factory', f), join(dir, 'factory', f), { recursive: true });
