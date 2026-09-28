@@ -109,9 +109,13 @@
       ],
       "key": "blocks.pdf.write",
       "reqHash": "5223eae32739b2ca",
-      "status": "planned",
-      "tests": [],
-      "oracle": {},
+      "status": "todo",
+      "tests": [
+        "spec/F005-pdf-block.test.ts"
+      ],
+      "oracle": {
+        "spec/F005-pdf-block.test.ts": "ca6fa98c00b67d6699cf87f476eb7446792219cef9c9bf104d0e7ccb58f458b0"
+      },
       "attempts": 0,
       "depth": 0
     },

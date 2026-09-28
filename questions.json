@@ -62,6 +62,24 @@
       "default": "Keep it in JavaScript (no device needed): filters, crop, split and stack write PNG, and resize writes JPEG.",
       "blocking": false,
       "answer": null
+    },
+    {
+      "id": "Q008",
+      "feature": "F005",
+      "type": "preference",
+      "question": "Is an empty-string password treated as 'no password' or as a password shorter than 4 characters (an error)?",
+      "default": "Treat an empty-string password as not covered by the tests; the implementation may treat it as no password.",
+      "blocking": false,
+      "answer": null
+    },
+    {
+      "id": "Q009",
+      "feature": "F005",
+      "type": "preference",
+      "question": "What page size does write use when no pageSize is given?",
+      "default": "The tests always pass pageSize when size matters; the default is left to the implementation (auto is suggested).",
+      "blocking": false,
+      "answer": null
     }
   ]
 }
