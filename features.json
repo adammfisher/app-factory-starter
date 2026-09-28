@@ -36,14 +36,14 @@
       ],
       "key": "blocks.core.conventions",
       "reqHash": "c09221dde24fb5d1",
-      "status": "todo",
+      "status": "passing",
       "tests": [
         "spec/F002-block-conventions.test.ts"
       ],
       "oracle": {
         "spec/F002-block-conventions.test.ts": "0d602e0c86c0031e5ce3e220afa80da0f90ba85446a1ac156e109e030b4fd5e3"
       },
-      "attempts": 0,
+      "attempts": 3,
       "depth": 0
     },
     {

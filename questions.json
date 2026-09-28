@@ -170,6 +170,15 @@
       "default": "Records only, as the test asserts.",
       "blocking": false,
       "answer": null
+    },
+    {
+      "id": "Q020",
+      "feature": "F002",
+      "type": "preference",
+      "question": "The regression gate runs every test in spec/, including the locked tests for features F003–F014 that aren't built yet. Those tests are meant to fail until their features exist, so F002 and every later feature fails regression. Should factory/ change the regression step to run only the tests of features marked passing, plus the current feature's tests?",
+      "default": "Leave factory/ unchanged and keep F002 as it is. It passes typecheck and its own spec, but will keep failing regression until the gate changes or every later feature is built.",
+      "blocking": false,
+      "answer": null
     }
   ]
 }

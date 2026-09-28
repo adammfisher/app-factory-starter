@@ -12,3 +12,10 @@ export function publicValue(value: string | undefined): string {
 }
 
 export const env = Object.freeze({} satisfies Record<string, string>);
+
+// The fakes switch: "1" in the preview environment used by e2e builds. Each block's index calls
+// this when it loads and exports its fake instead of the real implementation. A function, not a
+// field of env, so a test can set the variable before requiring a block.
+export function useFakes(): boolean {
+  return process.env.EXPO_PUBLIC_USE_FAKES === '1';
+}
