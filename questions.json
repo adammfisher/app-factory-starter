@@ -1,3 +1,31 @@
 {
-  "questions": []
+  "questions": [
+    {
+      "id": "Q001",
+      "feature": null,
+      "type": "preference",
+      "question": "Which features go in the purchases block's single paid-feature list for the starter, given each app will replace it?",
+      "default": "Ship a one-entry placeholder list [\"pro-example\"] gated by the \"pro\" entitlement, for each app to replace.",
+      "blocking": false,
+      "answer": null
+    },
+    {
+      "id": "Q002",
+      "feature": null,
+      "type": "preference",
+      "question": "What minimum free space should the storage block keep before refusing a write with \"not-enough-space\", when the app sets no limit?",
+      "default": "100 MB, overridable by the app.",
+      "blocking": false,
+      "answer": null
+    },
+    {
+      "id": "Q003",
+      "feature": null,
+      "type": "credential",
+      "question": "What are the RevenueCat public SDK keys (iOS and Android) for the sandbox project with the \"pro\" entitlement, to be set as EXPO_PUBLIC values in the development EAS environment?",
+      "default": "Build and test against the fake and the missing-key path (price returns null); Block Lab purchase checks stay failing until the keys are set.",
+      "blocking": false,
+      "answer": null
+    }
+  ]
 }

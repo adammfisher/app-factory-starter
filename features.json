@@ -20,6 +20,270 @@
       "attempts": 0,
       "depth": 0,
       "greenAtPlan": true
+    },
+    {
+      "id": "F002",
+      "title": "Block conventions: folder contract, isolation, config composition, fakes switch and remove command",
+      "requirement": "R-001",
+      "needsDevice": false,
+      "acceptance": [
+        "Every folder in src/blocks has index.ts, index.web.ts, fake.ts, config.js and a block.json listing its name, packages, EXPO_PUBLIC values and device checks; a folder missing any of these fails the conventions test.",
+        "A file inside one block that imports from another block's folder fails the conventions test.",
+        "app.config.ts includes a block's config plugins, permission texts and privacy manifest entries only when that block's folder exists.",
+        "When EXPO_PUBLIC_USE_FAKES is \"1\", each block's index returns its fake instead of the real implementation.",
+        "node src/blocks/remove.mjs camera deletes src/blocks/camera and spec/blocks/camera and uninstalls each package that no remaining block lists.",
+        "node src/blocks/remove.mjs with a name that is not a block prints \"No block named\" followed by the name and changes nothing."
+      ],
+      "key": "blocks.core.conventions",
+      "reqHash": "c09221dde24fb5d1",
+      "status": "planned",
+      "tests": [],
+      "oracle": {},
+      "attempts": 0,
+      "depth": 0
+    },
+    {
+      "id": "F003",
+      "title": "Lock block: grace period, relock timing, hide-content and biometric authenticate",
+      "requirement": "R-012",
+      "needsDevice": false,
+      "acceptance": [
+        "authenticate() resolves \"success\", \"cancelled\" or \"unavailable\", and offers the phone passcode when biometrics fail.",
+        "With a 60-second grace period, shouldLock returns true after 60 or more seconds in the background and false after 59 seconds.",
+        "The grace period accepts 0 to 600 seconds; a value below 0 becomes 0 and a value above 600 becomes 600.",
+        "When the app state changes to inactive or background with lock enabled, the block emits \"hide-content\" in that same state change.",
+        "On web, authenticate() resolves \"unavailable\"."
+      ],
+      "key": "blocks.lock.biometric",
+      "reqHash": "70e525948c304faf",
+      "status": "planned",
+      "tests": [],
+      "oracle": {},
+      "attempts": 0,
+      "depth": 0
+    },
+    {
+      "id": "F004",
+      "title": "Imaging block: filters, crop, split, stack and resize on the device",
+      "requirement": "R-007",
+      "needsDevice": false,
+      "acceptance": [
+        "Applying \"grayscale\" to a 4 × 4 test image returns a new image whose pixels have equal red, green and blue values, and the input file is unchanged.",
+        "Applying \"blackwhite\" returns a new image whose pixels are only pure black or pure white, and \"original\" returns the input unchanged.",
+        "crop(image, rect) returns an image exactly the rect's size, and a rect reaching outside the image returns the error \"bad-rect\".",
+        "splitHalves(image) returns the left half then the right half, and their widths add up to the original width.",
+        "stack(top, bottom) returns one image as tall as both together and as wide as the wider one.",
+        "resize(image, 1600, 0.4) returns a JPEG whose longest side is 1600 pixels when the input is larger, and leaves a smaller image at its own size."
+      ],
+      "key": "blocks.imaging.process",
+      "reqHash": "44b5546e22ad6515",
+      "status": "planned",
+      "tests": [],
+      "oracle": {},
+      "attempts": 0,
+      "depth": 0
+    },
+    {
+      "id": "F005",
+      "title": "PDF block: multi-page write with text layer, page size and password, and readText",
+      "requirement": "R-008",
+      "needsDevice": false,
+      "acceptance": [
+        "write of 3 page images produces one PDF with 3 pages in the given order.",
+        "With the text \"Invoice 4417\" given for page 2, readText of the PDF returns \"Invoice 4417\" for page 2.",
+        "Page size \"letter\" gives pages of 612 × 792 points, \"a4\" gives 595 × 842 points, and \"auto\" gives each page its image's aspect ratio.",
+        "With a password of 4 to 64 characters, readText without the password returns the error \"password-required\", and with it returns the text.",
+        "A password shorter than 4 or longer than 64 characters, or an empty list of pages, returns an error and writes no file."
+      ],
+      "key": "blocks.pdf.write",
+      "reqHash": "5223eae32739b2ca",
+      "status": "planned",
+      "tests": [],
+      "oracle": {},
+      "attempts": 0,
+      "depth": 0
+    },
+    {
+      "id": "F006",
+      "title": "AI block: model status, generate and chunked summarize",
+      "requirement": "R-010",
+      "needsDevice": false,
+      "acceptance": [
+        "status() returns \"builtin\" when the phone reports Apple's or Google's on-device model, \"downloaded\" when the model file is present, \"downloadable\" when neither is present and the phone has 6 GB of memory or more, and \"unavailable\" otherwise.",
+        "generate(instructions, input) returns the model's text, and resolves the error \"no-model\" when status is \"downloadable\" or \"unavailable\".",
+        "generate with input longer than 2,000 words resolves the error \"too-long\" and sends nothing to the model.",
+        "summarize of a 5,000-word text sends parts of 2,000, 2,000 and 1,000 words, then one request that combines the three part summaries, and returns that combined summary.",
+        "The block makes no network calls while generating or summarizing.",
+        "On web, status() returns \"unavailable\"."
+      ],
+      "key": "blocks.ai.generate",
+      "reqHash": "9fda521334638295",
+      "status": "planned",
+      "tests": [],
+      "oracle": {},
+      "attempts": 0,
+      "depth": 0
+    },
+    {
+      "id": "F007",
+      "title": "AI model download: progress, Wi-Fi wait, failure cleanup and remove",
+      "requirement": "R-011",
+      "needsDevice": false,
+      "acceptance": [
+        "download() resolves \"not-needed\" when status is \"builtin\" or \"downloaded\", and \"not-supported\" when status is \"unavailable\".",
+        "download() reports progress in whole percent from 0 to 100 and ends with status \"downloaded\".",
+        "A download larger than 200 MB on mobile data reports \"waiting-for-wifi\" until Wi-Fi returns or the person accepts the phone's mobile-data prompt.",
+        "A failed or cancelled download leaves status \"downloadable\" and no partial files.",
+        "remove() deletes the model files, sets status to \"downloadable\", and returns the bytes freed."
+      ],
+      "key": "blocks.ai.model",
+      "reqHash": "cb0e45c352524ee4",
+      "status": "planned",
+      "tests": [],
+      "oracle": {},
+      "attempts": 0,
+      "depth": 0
+    },
+    {
+      "id": "F008",
+      "title": "Text block: on-device recognition and translation",
+      "requirement": "R-009",
+      "needsDevice": false,
+      "acceptance": [
+        "recognize(image) returns the text lines in reading order, top to bottom, and an image with no text returns an empty list.",
+        "languages() returns the languages the phone's translator supports, each with its code and whether it is downloaded.",
+        "translate(text, \"es\") returns the translated text, and a language not yet downloaded resolves \"needs-download\".",
+        "downloadLanguage(\"es\") shows the phone's download prompt and resolves \"downloaded\" or \"declined\".",
+        "Empty text returns an empty result without calling the recognizer or the translator.",
+        "The block makes no network calls of its own, and on web recognize and translate resolve the error \"not-available\"."
+      ],
+      "key": "blocks.text.recognize",
+      "reqHash": "2d06d609f09182ea",
+      "status": "planned",
+      "tests": [],
+      "oracle": {},
+      "attempts": 0,
+      "depth": 0
+    },
+    {
+      "id": "F009",
+      "title": "Camera block: document scan and photo import",
+      "requirement": "R-006",
+      "needsDevice": false,
+      "acceptance": [
+        "scanDocument() resolves the captured pages in capture order, each with its file path, width and height.",
+        "A cancelled scan resolves an empty list and no error.",
+        "When camera permission is denied, scanDocument() resolves the error \"camera-denied\", and openSettings() opens the app's page in the phone's settings.",
+        "importPhotos(limit) resolves the chosen images in the order chosen, keeps at most limit of them, and reports how many were dropped.",
+        "HEIC images are converted to JPEG before they are returned.",
+        "On web, scanDocument() resolves the error \"not-available\", and importPhotos uses the browser's file picker."
+      ],
+      "key": "blocks.camera.capture",
+      "reqHash": "d41fee8c1c269b11",
+      "status": "planned",
+      "tests": [],
+      "oracle": {},
+      "attempts": 0,
+      "depth": 0
+    },
+    {
+      "id": "F010",
+      "title": "Files block: share, print, save as and open",
+      "requirement": "R-004",
+      "needsDevice": false,
+      "acceptance": [
+        "share(path) opens the share sheet with that file and resolves \"shared\" or \"cancelled\".",
+        "print(path) opens the print dialog with that PDF and resolves \"printed\" or \"cancelled\".",
+        "saveAs(path, name) opens the phone's save dialog with that name suggested and resolves \"saved\" or \"cancelled\".",
+        "open(types, limit) resolves the chosen files in the order chosen, each with its path, name and type, and resolves an empty list when cancelled.",
+        "Files whose type is not in types, and files beyond limit, are left out and counted as skipped.",
+        "On web, share and saveAs download the file and print opens the browser's print dialog."
+      ],
+      "key": "blocks.files.exchange",
+      "reqHash": "e21b2df9c95a1514",
+      "status": "planned",
+      "tests": [],
+      "oracle": {},
+      "attempts": 0,
+      "depth": 0
+    },
+    {
+      "id": "F011",
+      "title": "Block Lab screen: gated list, per-block and Run All device checks with timeout",
+      "requirement": "R-002",
+      "needsDevice": false,
+      "acceptance": [
+        "With EXPO_PUBLIC_BLOCK_LAB set to \"1\" the Block Lab route shows the block list; with any other value it shows \"Not available\".",
+        "The list has one row per folder in src/blocks, in alphabetical order, each showing the device checks named in its block.json.",
+        "Run on a row runs that block's checks in order and shows Pass or Fail for each, with the error text for each Fail.",
+        "A check still running after 60 seconds by the screen's timer shows Fail with \"Timed out\", and the next check starts.",
+        "Run All runs every block's checks and shows the totals passed and failed.",
+        "A block whose block.json lists no device checks shows \"No device checks\"."
+      ],
+      "key": "blocks.core.lab",
+      "reqHash": "468a9f7f9f845909",
+      "status": "planned",
+      "tests": [],
+      "oracle": {},
+      "attempts": 0,
+      "depth": 0
+    },
+    {
+      "id": "F012",
+      "title": "Storage block: records, settings, files and free-space limit",
+      "requirement": "R-003",
+      "needsDevice": false,
+      "acceptance": [
+        "A record saved with id \"d1\" in collection \"docs\" is returned by get and by list after the store is closed and reopened, and after remove it is returned by neither.",
+        "list returns a collection's records in the order they were first saved.",
+        "A setting written as sort \"name\" reads back \"name\" after the store is reopened, and a setting never written reads as the default passed in.",
+        "Saving 3 files and deleting 1 leaves 2, and usedBytes falls by the deleted file's size.",
+        "A write that would leave less free space than the limit the app sets returns the error \"not-enough-space\" and writes nothing."
+      ],
+      "key": "blocks.storage.records",
+      "reqHash": "6c59d48f1934b8f6",
+      "status": "planned",
+      "tests": [],
+      "oracle": {},
+      "attempts": 0,
+      "depth": 0
+    },
+    {
+      "id": "F013",
+      "title": "Storage block: export and import archive",
+      "requirement": "R-003",
+      "needsDevice": false,
+      "acceptance": [
+        "importArchive of an exportArchive file restores every record, setting and file; into a store that has records it skips ids already present and returns the added and skipped counts; a file that is not an archive returns \"not-an-archive\" and changes nothing."
+      ],
+      "key": "blocks.storage.records",
+      "reqHash": "6c59d48f1934b8f6",
+      "status": "planned",
+      "tests": [],
+      "oracle": {},
+      "attempts": 0,
+      "depth": 0
+    },
+    {
+      "id": "F014",
+      "title": "Purchases block: pro unlock through RevenueCat, online and offline",
+      "requirement": "R-005",
+      "needsDevice": false,
+      "acceptance": [
+        "isUnlocked(\"pro\") is false until the store reports the \"pro\" entitlement, then true without a restart.",
+        "The paid feature list is declared once, and lockedFeatures() returns every listed feature while \"pro\" is missing and none once it is present.",
+        "price(\"pro\") returns the store's localized price text, or null when the store cannot be reached, the EXPO_PUBLIC key is missing, or on web.",
+        "buy(\"pro\") resolves \"purchased\", \"cancelled\", \"pending\" or \"failed\", only \"purchased\" unlocks, and on web it resolves \"failed\".",
+        "restore() unlocks \"pro\" when the store reports an earlier purchase and resolves \"nothing-to-restore\" otherwise.",
+        "After an unlock, isUnlocked(\"pro\") stays true after a restart while the store cannot be reached."
+      ],
+      "key": "blocks.purchases.unlock",
+      "reqHash": "944d498033ed9caf",
+      "status": "planned",
+      "tests": [],
+      "oracle": {},
+      "attempts": 0,
+      "depth": 0
     }
   ]
 }
