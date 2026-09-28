@@ -60,14 +60,14 @@
       ],
       "key": "blocks.lock.biometric",
       "reqHash": "70e525948c304faf",
-      "status": "todo",
+      "status": "passing",
       "tests": [
         "spec/F003-lock-block.test.ts"
       ],
       "oracle": {
         "spec/F003-lock-block.test.ts": "8f0299353b8058969a90e87799672fd50ac39b1025266519fc5173d9c3beb567"
       },
-      "attempts": 0,
+      "attempts": 1,
       "depth": 0
     },
     {

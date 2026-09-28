@@ -1,0 +1,6 @@
+{
+  "name": "lock",
+  "packages": ["expo-local-authentication"],
+  "env": [],
+  "deviceChecks": ["authenticate", "hide-content"]
+}

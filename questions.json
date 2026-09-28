@@ -179,6 +179,15 @@
       "default": "Leave factory/ unchanged and keep F002 as it is. It passes typecheck and its own spec, but will keep failing regression until the gate changes or every later feature is built.",
       "blocking": false,
       "answer": null
+    },
+    {
+      "id": "Q021",
+      "feature": "F003",
+      "type": "preference",
+      "question": "What should the iOS Face ID permission text (NSFaceIDUsageDescription) say? iOS shows it the first time an app asks for Face ID, and App Review reads it.",
+      "default": "\"Unlock the app with Face ID.\" in src/blocks/lock/config.js, for each app to reword.",
+      "blocking": false,
+      "answer": null
     }
   ]
 }
