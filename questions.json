@@ -260,6 +260,15 @@
       "default": "Keep the test as written. It matches the criterion and the existing implementation, so the loop can mark F016 done once the gate passes.",
       "blocking": false,
       "answer": null
+    },
+    {
+      "id": "Q030",
+      "feature": "F009",
+      "type": "preference",
+      "question": "scanDocument() needs a local Expo native module called 'DocumentScanner' (VisionKit on iOS, ML Kit's document scanner on Android). That work falls outside app/ and src/. Should the factory add it as a modules/document-scanner local module, or should we use a third-party scanner package instead?",
+      "default": "Ship without the native module for now: on a real build scanDocument() returns { error: 'not-available' } until a modules/document-scanner Expo module is added. Photo import works now.",
+      "blocking": false,
+      "answer": null
     }
   ]
 }

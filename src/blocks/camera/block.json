@@ -1,0 +1,6 @@
+{
+  "name": "camera",
+  "packages": ["expo-image-manipulator", "expo-image-picker"],
+  "env": [],
+  "deviceChecks": ["scan", "scan-cancel", "camera-denied", "import-photos", "heic"]
+}
