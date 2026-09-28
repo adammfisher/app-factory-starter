@@ -208,9 +208,13 @@
       ],
       "key": "blocks.camera.capture",
       "reqHash": "d41fee8c1c269b11",
-      "status": "planned",
-      "tests": [],
-      "oracle": {},
+      "status": "todo",
+      "tests": [
+        "spec/F009-camera-block.test.ts"
+      ],
+      "oracle": {
+        "spec/F009-camera-block.test.ts": "60e8d380c52af2d9768e530ad9e1a94f398ccc20416117d29d9bddc7d49dc71b"
+      },
       "attempts": 0,
       "depth": 0
     },
