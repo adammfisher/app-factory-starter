@@ -107,6 +107,33 @@
       "default": "Decimal (200,000,000 bytes). The tests use 150 MB and 2 GB, so either reading passes.",
       "blocking": false,
       "answer": null
+    },
+    {
+      "id": "Q013",
+      "feature": "F008",
+      "type": "preference",
+      "question": "translate() resolves a string for success, so the tests expect a language not yet downloaded to resolve { error: \"needs-download\" } rather than the bare string \"needs-download\", which could be mistaken for a translation. Is that what you want?",
+      "default": "translate resolves { error: \"needs-download\" }, and on web { error: \"not-available\" }. downloadLanguage resolves the bare strings \"downloaded\" or \"declined\".",
+      "blocking": false,
+      "answer": null
+    },
+    {
+      "id": "Q014",
+      "feature": "F008",
+      "type": "preference",
+      "question": "The tests expect the phone's recognizer and translator to be reached through requireOptionalNativeModule(\"TextRecognizer\") (recognizeAsync(uri) returns lines with pixel frames, in no set order) and requireOptionalNativeModule(\"Translator\") (languagesAsync, translateAsync(text, code), and downloadAsync(code), which returns a boolean). The block sorts the lines by frame. Should this block use a packaged library such as ML Kit instead of custom bridges?",
+      "default": "Custom native bridges with these names and methods, built in the native session. A missing module reads as \"not-available\".",
+      "blocking": false,
+      "answer": null
+    },
+    {
+      "id": "Q015",
+      "feature": "F008",
+      "type": "fact",
+      "question": "Does \"empty text\" include text that is only whitespace, and does it apply to recognize at all (for example, an empty image path)?",
+      "default": "The tests only check translate(\"\") → \"\" with no native calls. Whitespace-only text and recognize inputs are left to the implementation.",
+      "blocking": false,
+      "answer": null
     }
   ]
 }

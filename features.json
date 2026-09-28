@@ -183,9 +183,13 @@
       ],
       "key": "blocks.text.recognize",
       "reqHash": "2d06d609f09182ea",
-      "status": "planned",
-      "tests": [],
-      "oracle": {},
+      "status": "todo",
+      "tests": [
+        "spec/F008-text-block.test.ts"
+      ],
+      "oracle": {
+        "spec/F008-text-block.test.ts": "3c8e9d0ddbf50538b04067682343c0f1a576796671f6177049fcc647db2a3b30"
+      },
       "attempts": 0,
       "depth": 0
     },
