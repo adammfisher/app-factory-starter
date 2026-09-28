@@ -215,6 +215,42 @@
       "default": "Keep ^0.13.0-rc.6 for now and re-check before release.",
       "blocking": false,
       "answer": null
+    },
+    {
+      "id": "Q025",
+      "feature": "F008",
+      "type": "fact",
+      "question": "spec/F008-text-block.test.ts has a test-order bug: the translate test replaces mockPhone.translation (\"Good morning\" becomes \"Buenos días\") and nothing resets it, so the downloadLanguage test gets \"Buenos días\" where it expects \"[es] Good morning\". That test passes when run alone. Can the test be fixed, by having phone() or beforeEach reset mockPhone.translation to the default `[${code}] ${text}`?",
+      "default": "The block is left as it is, passing 5 of 6. F008 stays open until the test resets mockPhone.translation, and the block needs no changes once it does.",
+      "blocking": false,
+      "answer": null
+    },
+    {
+      "id": "Q026",
+      "feature": "F008",
+      "type": "preference",
+      "question": "spec/F008-text-block.test.ts has a test-order bug. The translate test sets mockPhone.translation (\"Good morning\" becomes \"Buenos días\") and nothing resets it, so the downloadLanguage test gets \"Buenos días\" where it expects \"[es] Good morning\". That test passes on its own. Can the test be fixed by having phone() or beforeEach reset mockPhone.translation to the default (text, code) => `[${code}] ${text}`?",
+      "default": "The block stays as it is, passing 5 of 6. F008 stays open until the test resets mockPhone.translation; the block needs no changes after that.",
+      "blocking": false,
+      "answer": null
+    },
+    {
+      "id": "Q027",
+      "feature": "F008",
+      "type": "fact",
+      "question": "spec/F008-text-block.test.ts is wrong: the translate test (line 188) sets mockPhone.translation so 'Good morning' → 'Buenos días' in Spanish, and nothing resets it, so the downloadLanguage test (line 219) gets 'Buenos días' where it expects '[es] Good morning'. That test passes when run on its own. May the test be corrected so phone() resets mockPhone.translation to the default `[${code}] ${text}`?",
+      "default": "Leave the text block as it is (it's correct). F008 stays failing until the test is fixed to reset mockPhone.translation in phone().",
+      "blocking": false,
+      "answer": null
+    },
+    {
+      "id": "Q028",
+      "feature": "F015",
+      "type": "fact",
+      "question": "spec/F015-text-block.test.ts passes 5 of 5 right now, not failing as required, because the untracked src/blocks/text/ left from the F008 attempt already meets every F015 criterion. Should that block be kept as F015's implementation, or removed so the spec is shown failing first?",
+      "default": "Keep src/blocks/text/ as it is and treat it as F015's implementation, since it passes the F015 spec unchanged.",
+      "blocking": false,
+      "answer": null
     }
   ]
 }

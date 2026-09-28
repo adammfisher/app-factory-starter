@@ -1,0 +1,6 @@
+{
+  "name": "text",
+  "packages": [],
+  "env": [],
+  "deviceChecks": ["recognize", "languages", "translate", "download-language"]
+}

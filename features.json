@@ -183,15 +183,74 @@
       ],
       "key": "blocks.text.recognize",
       "reqHash": "2d06d609f09182ea",
-      "status": "todo",
+      "status": "superseded",
+      "tests": [],
+      "oracle": {},
+      "attempts": 3,
+      "depth": 0,
+      "lastFailure": {
+        "ok": false,
+        "steps": [
+          {
+            "id": "typecheck",
+            "ok": true,
+            "seconds": 1,
+            "exitCode": 0
+          },
+          {
+            "id": "spec",
+            "ok": false,
+            "seconds": 1,
+            "exitCode": 1
+          }
+        ],
+        "stage": "spec",
+        "class": "work",
+        "cmd": "npx jest --ci spec/F008-text-block.test.ts",
+        "exitCode": 1,
+        "tail": "FAIL spec/F008-text-block.test.ts\n  F008 text block\n    ✓ recognize(image) returns the text lines in reading order, top to bottom, and an image with no text returns an empty list. (18 ms)\n    ✓ languages() returns the languages the phone's translator supports, each with its code and whether it is downloaded. (11 ms)\n    ✓ translate(text, \"es\") returns the translated text, and a language not yet downloaded resolves \"needs-download\". (6 ms)\n    ✕ downloadLanguage(\"es\") shows the phone's download prompt and resolves \"downloaded\" or \"declined\". (7 ms)\n    ✓ Empty text returns an empty result without calling the recognizer or the translator. (5 ms)\n    ✓ The block makes no network calls of its own, and on web recognize and translate resolve the error \"not-available\". (4 ms)\n\n  ● F008 text block › downloadLanguage(\"es\") shows the phone's download prompt and resolves \"downloaded\" or \"declined\".\n\n    expect(received).toBe(expected) // Object.is equality\n\n    Expected: \"[es] Good morning\"\n    Received: \"Buenos días\"\n\n      217 |     if (isFailure(after)) throw new Error(`expected languages, got the error \"${after.error}\"`);\n      218 |     expect(after.find((l) => l.code === 'es')?.downloaded).toBe(true);\n    > 219 |     expect(await block.translate('Good morning', 'es')).toBe('[es] Good morning');\n          |                                                         ^\n      220 |   });\n      221 |\n      222 |   it('Empty text returns an empty result without calling the recognizer or the translator.', async () => {\n\n      at Object.toBe (spec/F008-text-block.test.ts:219:57)\n      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)\n      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)\n\nTest Suites: 1 failed, 1 total\nTests:       1 failed, 5 passed, 6 total\nSnapshots:   0 total\nTime:        0.177 s, estimated 1 s\nRan all test suites matching /spec\\/F008-text-block.test.ts/i."
+      }
+    },
+    {
+      "id": "F015",
+      "title": "Text block: on-device recognition, languages and translation",
+      "requirement": "R-009",
+      "needsDevice": false,
+      "acceptance": [
+        "recognize(image) returns the text lines in reading order, top to bottom, and an image with no text returns an empty list.",
+        "languages() returns the languages the phone's translator supports, each with its code and whether it is downloaded.",
+        "translate(text, \"es\") returns the translated text, and a language not yet downloaded resolves \"needs-download\".",
+        "Empty text returns an empty result without calling the recognizer or the translator.",
+        "The block makes no network calls of its own, and on web recognize and translate resolve the error \"not-available\"."
+      ],
+      "key": "blocks.text.recognize",
+      "reqHash": "2d06d609f09182ea",
+      "status": "passing",
       "tests": [
-        "spec/F008-text-block.test.ts"
+        "spec/F015-text-block.test.ts"
       ],
       "oracle": {
-        "spec/F008-text-block.test.ts": "3c8e9d0ddbf50538b04067682343c0f1a576796671f6177049fcc647db2a3b30"
+        "spec/F015-text-block.test.ts": "53a3e4e5c46010d623fe65633405b642f9ef7b9ae1d179e4dc0bc7357d435a9e"
       },
       "attempts": 0,
-      "depth": 0
+      "depth": 1,
+      "greenAtPlan": true
+    },
+    {
+      "id": "F016",
+      "title": "Text block: translation language download",
+      "requirement": "R-009",
+      "needsDevice": false,
+      "acceptance": [
+        "downloadLanguage(\"es\") shows the phone's download prompt and resolves \"downloaded\" or \"declined\"."
+      ],
+      "key": "blocks.text.recognize",
+      "reqHash": "2d06d609f09182ea",
+      "status": "planned",
+      "tests": [],
+      "oracle": {},
+      "attempts": 0,
+      "depth": 1
     },
     {
       "id": "F009",
