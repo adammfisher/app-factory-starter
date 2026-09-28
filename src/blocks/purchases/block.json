@@ -1,0 +1,6 @@
+{
+  "name": "purchases",
+  "packages": ["react-native-purchases", "expo-secure-store"],
+  "env": ["EXPO_PUBLIC_REVENUECAT_IOS_KEY", "EXPO_PUBLIC_REVENUECAT_ANDROID_KEY"],
+  "deviceChecks": ["price", "buy", "restore"]
+}

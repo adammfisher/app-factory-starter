@@ -296,6 +296,15 @@
       "default": "Cache folder, as <store>-backup-<timestamp>.json; the app hands it to the files block to share or save as.",
       "blocking": false,
       "answer": null
+    },
+    {
+      "id": "Q034",
+      "feature": "F014",
+      "type": "preference",
+      "question": "On web, restore() has no store to ask. Should it resolve \"failed\" (could not check) or \"nothing-to-restore\"?",
+      "default": "\"failed\", matching buy() on web.",
+      "blocking": false,
+      "answer": null
     }
   ]
 }

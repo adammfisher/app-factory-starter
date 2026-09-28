@@ -14,6 +14,9 @@ export function publicValue(value: string | undefined): string {
 export const env = Object.freeze({
   // "1" turns on the Block Lab screen (app/block-lab.tsx) in development builds.
   blockLab: publicValue(process.env.EXPO_PUBLIC_BLOCK_LAB),
+  // RevenueCat public SDK keys, used by the purchases block. Empty: the store is never contacted.
+  revenueCatIosKey: publicValue(process.env.EXPO_PUBLIC_REVENUECAT_IOS_KEY),
+  revenueCatAndroidKey: publicValue(process.env.EXPO_PUBLIC_REVENUECAT_ANDROID_KEY),
 } satisfies Record<string, string>);
 
 // The fakes switch: "1" in the preview environment used by e2e builds. Each block's index calls
