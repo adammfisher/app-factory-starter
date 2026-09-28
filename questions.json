@@ -251,6 +251,15 @@
       "default": "Keep src/blocks/text/ as it is and treat it as F015's implementation, since it passes the F015 spec unchanged.",
       "blocking": false,
       "answer": null
+    },
+    {
+      "id": "Q029",
+      "feature": "F016",
+      "type": "fact",
+      "question": "F016's downloadLanguage was already built with the F015 text block (src/blocks/text/index.ts, fake.ts, index.web.ts), so the new F016 test passes instead of failing. Should F016 be recorded as done, or was it meant to be a separate, still-unbuilt feature?",
+      "default": "Keep the test as written. It matches the criterion and the existing implementation, so the loop can mark F016 done once the gate passes.",
+      "blocking": false,
+      "answer": null
     }
   ]
 }

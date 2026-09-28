@@ -246,11 +246,16 @@
       ],
       "key": "blocks.text.recognize",
       "reqHash": "2d06d609f09182ea",
-      "status": "planned",
-      "tests": [],
-      "oracle": {},
+      "status": "passing",
+      "tests": [
+        "spec/F016-text-language-download.test.ts"
+      ],
+      "oracle": {
+        "spec/F016-text-language-download.test.ts": "ba4464308e8b28c16d92c3cc249971db322f05f1086b453d367f09cf8d5f3ff6"
+      },
       "attempts": 0,
-      "depth": 1
+      "depth": 1,
+      "greenAtPlan": true
     },
     {
       "id": "F009",
