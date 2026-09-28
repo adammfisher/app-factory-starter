@@ -31,6 +31,10 @@ export function fileDisk(name: string): Disk {
     async writeText(path, text) {
       writable(path).write(text);
     },
+    async readBytes(path) {
+      const file = fileAt(path);
+      return file.exists ? file.bytes() : null;
+    },
     async writeBytes(path, bytes) {
       writable(path).write(bytes);
     },
@@ -52,6 +56,21 @@ export function fileDisk(name: string): Disk {
     },
     async free() {
       return Paths.availableDiskSpace;
+    },
+    // Archives go in the cache: they are made to be shared, and the store's folder stays the store's.
+    async writeArchive(text) {
+      const file = new File(Paths.cache, `${name}-backup-${Date.now()}.json`);
+      file.create({ overwrite: true });
+      file.write(text);
+      return file.uri;
+    },
+    async readArchive(uri) {
+      try {
+        const file = new File(uri);
+        return file.exists ? await file.text() : null;
+      } catch {
+        return null;
+      }
     },
   };
 }

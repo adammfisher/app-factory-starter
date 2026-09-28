@@ -3,6 +3,8 @@
 import { DEFAULT_STORE_NAME, openStore, utf8Length, type Disk, type OpenOptions, type Store } from './store';
 
 const disks = new Map<string, Map<string, string | Uint8Array>>();
+// Archive URI → its text, shared by every fake store as files on one phone would be.
+const archives = new Map<string, string>();
 let capacity = Number.MAX_SAFE_INTEGER;
 
 function sizeOf(data: string | Uint8Array): number {
@@ -30,6 +32,10 @@ function memoryDisk(name: string): Disk {
     async writeText(path, text) {
       store.set(path, text);
     },
+    async readBytes(path) {
+      const data = store.get(path);
+      return data instanceof Uint8Array ? new Uint8Array(data) : null;
+    },
     async writeBytes(path, bytes) {
       store.set(path, new Uint8Array(bytes));
     },
@@ -54,6 +60,14 @@ function memoryDisk(name: string): Disk {
     async free() {
       return capacity - usedByAll();
     },
+    async writeArchive(text) {
+      const uri = `file:///fake/${name}-backup-${archives.size + 1}.json`;
+      archives.set(uri, text);
+      return uri;
+    },
+    async readArchive(uri) {
+      return archives.get(uri) ?? null;
+    },
   };
 }
 
@@ -65,6 +79,7 @@ export function setFakeCapacity(bytes: number): void {
 // Forgets every fake store and puts capacity back.
 export function resetFake(): void {
   disks.clear();
+  archives.clear();
   capacity = Number.MAX_SAFE_INTEGER;
 }
 

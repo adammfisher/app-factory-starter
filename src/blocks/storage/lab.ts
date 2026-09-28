@@ -42,4 +42,20 @@ export const deviceChecks: DeviceChecks = {
     await store.close();
     return expectThat(r, (r as { error?: string } | undefined)?.error === 'not-enough-space', 'Expected "not-enough-space"');
   },
+  archive: async () => {
+    const from = await open({ name: 'block-lab-storage-archive-from' });
+    await from.save('lab', { id: 'a1', title: 'Archived' });
+    const uri = await from.exportArchive();
+    await from.remove('lab', 'a1');
+    await from.close();
+    if (typeof uri !== 'string') return expectThat(uri, false, 'Expected an archive URI');
+    const into = await open({ name: 'block-lab-storage-archive-into' });
+    await into.remove('lab', 'a1');
+    const counts = await into.importArchive(uri);
+    const found = await into.get('lab', 'a1');
+    await into.remove('lab', 'a1');
+    await into.close();
+    const ok = 'added' in counts && counts.added === 1 && counts.skipped === 0 && found?.title === 'Archived';
+    return expectThat(counts, ok, 'Expected the archived record to be imported');
+  },
 };

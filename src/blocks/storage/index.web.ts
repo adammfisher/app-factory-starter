@@ -6,7 +6,7 @@ import { DEFAULT_STORE_NAME, openStore, type OpenOptions, type Store } from './s
 import { webDisk } from './web-disk';
 
 export { DEFAULT_MIN_FREE_BYTES } from './store';
-export type { Doc, Failure, Json, OpenOptions, Store, StoredFile } from './store';
+export type { Doc, Failure, ImportCounts, Json, NotAnArchive, OpenOptions, Store, StoredFile } from './store';
 
 async function webOpen(options?: OpenOptions): Promise<Store> {
   return openStore(webDisk(options?.name ?? DEFAULT_STORE_NAME), options);

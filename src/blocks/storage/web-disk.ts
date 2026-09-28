@@ -44,6 +44,10 @@ export function webDisk(name: string): Disk {
       return typeof found?.data === 'string' ? found.data : null;
     },
     writeText: (path, text) => put({ path, data: text, size: utf8Length(text) }),
+    async readBytes(path) {
+      const found = await entry(path);
+      return found?.data instanceof Uint8Array ? new Uint8Array(found.data) : null;
+    },
     writeBytes: (path, bytes) => put({ path, data: new Uint8Array(bytes), size: bytes.byteLength }),
     remove: (path) => run('readwrite', (s) => s.delete(path)).then(() => undefined),
     async files(dir): Promise<StoredFile[]> {
@@ -62,6 +66,19 @@ export function webDisk(name: string): Disk {
       const estimate = await navigator.storage?.estimate?.();
       if (!estimate?.quota) return Number.MAX_SAFE_INTEGER;
       return estimate.quota - (estimate.usage ?? 0);
+    },
+    // The page cannot write a file, so the archive is a blob: URL the files block can share or save.
+    async writeArchive(text) {
+      return URL.createObjectURL(new Blob([text], { type: 'application/json' }));
+    },
+    // Reads blob:, data: and http(s) URIs, which is what a picker gives the page.
+    async readArchive(uri) {
+      try {
+        const response = await fetch(uri);
+        return response.ok ? await response.text() : null;
+      } catch {
+        return null;
+      }
     },
   };
 }

@@ -287,6 +287,15 @@
       "default": "Set it to \"1\" in development only; leave it unset in preview and production.",
       "blocking": false,
       "answer": null
+    },
+    {
+      "id": "Q033",
+      "feature": "F013",
+      "type": "preference",
+      "question": "On iOS and Android, should exportArchive keep the archive in the cache folder (the OS may clear it; meant to be shared or saved right away) or in the app's documents folder (kept, but it uses space until deleted)?",
+      "default": "Cache folder, as <store>-backup-<timestamp>.json; the app hands it to the files block to share or save as.",
+      "blocking": false,
+      "answer": null
     }
   ]
 }
