@@ -26,6 +26,33 @@
       "default": "Build and test against the fake and the missing-key path (price returns null); Block Lab purchase checks stay failing until the keys are set.",
       "blocking": false,
       "answer": null
+    },
+    {
+      "id": "Q004",
+      "feature": "F002",
+      "type": "preference",
+      "question": "block.json needs keys for the EXPO_PUBLIC values and the device checks. The tests use \"env\" (a list of EXPO_PUBLIC_* names) and \"deviceChecks\" (each a string or { name }). Do you want different key names?",
+      "default": "Use the keys name, packages, env and deviceChecks.",
+      "blocking": false,
+      "answer": null
+    },
+    {
+      "id": "Q005",
+      "feature": "F002",
+      "type": "preference",
+      "question": "Each block's config.js is CommonJS and exports parts of an Expo config: plugins, ios.infoPlist for permission texts, and ios.privacyManifests.NSPrivacyAccessedAPITypes. app.config.ts merges these for every folder present. Should Android permissions (android.permissions) be part of this contract too?",
+      "default": "Only plugins, iOS infoPlist permission texts and iOS privacy manifest entries are required. Android permissions come through each block's config plugins.",
+      "blocking": false,
+      "answer": null
+    },
+    {
+      "id": "Q006",
+      "feature": "F002",
+      "type": "fact",
+      "question": "With the fakes switch on, the test requires index.ts and index.web.ts to export every name fake.ts exports, as the same value. Until the first real block exists, that test checks nothing real, so F002 can pass it without any block. Should F002 ship a sample block so the switch is tested from the start?",
+      "default": "No sample block. The switch test starts checking real blocks when the first block feature (storage, R-003) lands.",
+      "blocking": false,
+      "answer": null
     }
   ]
 }
