@@ -188,6 +188,15 @@
       "default": "\"Unlock the app with Face ID.\" in src/blocks/lock/config.js, for each app to reword.",
       "blocking": false,
       "answer": null
+    },
+    {
+      "id": "Q022",
+      "feature": "F005",
+      "type": "preference",
+      "question": "SPEC.md names pdf-lib for the web and test implementation, but pdf-lib cannot password-protect a PDF. Is a self-contained JavaScript PDF writer and reader (no pdf-lib) acceptable for R-008?",
+      "default": "Keep the self-contained JavaScript writer and reader on all three platforms until the native PDFKit and PdfBox-Android writers are built.",
+      "blocking": false,
+      "answer": null
     }
   ]
 }
