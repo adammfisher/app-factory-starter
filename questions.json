@@ -269,6 +269,24 @@
       "default": "Ship without the native module for now: on a real build scanDocument() returns { error: 'not-available' } until a modules/document-scanner Expo module is added. Photo import works now.",
       "blocking": false,
       "answer": null
+    },
+    {
+      "id": "Q031",
+      "feature": "F011",
+      "type": "preference",
+      "question": "The F011 test can only pass with a Jest setup change outside app/ and src/: jest.setup.js plus a setupFilesAfterEnv line in jest.config.js, which turns off the testing library's automatic cleanup and does it once globally instead. Keep that, or change the test to load the library once at the top?",
+      "default": "Keep jest.setup.js and the jest.config.js line as they are.",
+      "blocking": false,
+      "answer": null
+    },
+    {
+      "id": "Q032",
+      "feature": "F011",
+      "type": "preference",
+      "question": "Should EXPO_PUBLIC_BLOCK_LAB be set to \"1\" in the development EAS environment, so development builds show the Block Lab and preview and production builds don't?",
+      "default": "Set it to \"1\" in development only; leave it unset in preview and production.",
+      "blocking": false,
+      "answer": null
     }
   ]
 }

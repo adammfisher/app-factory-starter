@@ -322,14 +322,14 @@
       ],
       "key": "blocks.core.lab",
       "reqHash": "468a9f7f9f845909",
-      "status": "todo",
+      "status": "passing",
       "tests": [
         "spec/F011-block-lab.test.tsx"
       ],
       "oracle": {
         "spec/F011-block-lab.test.tsx": "9fa151b7af4279bb77c4b20b61679935ffb5420a2434d60a9b7273794672f49d"
       },
-      "attempts": 0,
+      "attempts": 1,
       "depth": 0
     },
     {

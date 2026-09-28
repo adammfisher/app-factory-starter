@@ -11,7 +11,10 @@ export function publicValue(value: string | undefined): string {
   return value ?? '';
 }
 
-export const env = Object.freeze({} satisfies Record<string, string>);
+export const env = Object.freeze({
+  // "1" turns on the Block Lab screen (app/block-lab.tsx) in development builds.
+  blockLab: publicValue(process.env.EXPO_PUBLIC_BLOCK_LAB),
+} satisfies Record<string, string>);
 
 // The fakes switch: "1" in the preview environment used by e2e builds. Each block's index calls
 // this when it loads and exports its fake instead of the real implementation. A function, not a

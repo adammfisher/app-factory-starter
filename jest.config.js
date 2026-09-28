@@ -17,6 +17,7 @@ const unbuilt =
 module.exports = {
   preset: 'jest-expo',
   testEnvironment: 'node',
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   testMatch: ['<rootDir>/spec/**/*.test.[jt]s?(x)', '<rootDir>/src/**/*.test.[jt]s?(x)'],
   testPathIgnorePatterns: ['/node_modules/', ...unbuilt],
 };
