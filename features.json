@@ -327,9 +327,13 @@
       ],
       "key": "blocks.purchases.unlock",
       "reqHash": "944d498033ed9caf",
-      "status": "planned",
-      "tests": [],
-      "oracle": {},
+      "status": "todo",
+      "tests": [
+        "spec/F014-purchases-block.test.ts"
+      ],
+      "oracle": {
+        "spec/F014-purchases-block.test.ts": "79b9d14a566426d681f8ba09093ddf6969b640ef04d24d9e0fb1c0de3a299012"
+      },
       "attempts": 0,
       "depth": 0
     }
