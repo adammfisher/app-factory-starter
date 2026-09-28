@@ -53,6 +53,15 @@
       "default": "No sample block. The switch test starts checking real blocks when the first block feature (storage, R-003) lands.",
       "blocking": false,
       "answer": null
+    },
+    {
+      "id": "Q007",
+      "feature": "F004",
+      "type": "preference",
+      "question": "The imaging block is marked as not needing a device, so the tests expect it to decode and encode images in JavaScript. That will be slow on full phone-camera photos (roughly seconds per page). Should R-007 instead need a device and use a native library such as Skia, with device checks in the Block Lab?",
+      "default": "Keep it in JavaScript (no device needed): filters, crop, split and stack write PNG, and resize writes JPEG.",
+      "blocking": false,
+      "answer": null
     }
   ]
 }

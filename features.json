@@ -85,9 +85,13 @@
       ],
       "key": "blocks.imaging.process",
       "reqHash": "44b5546e22ad6515",
-      "status": "planned",
-      "tests": [],
-      "oracle": {},
+      "status": "todo",
+      "tests": [
+        "spec/F004-imaging-block.test.ts"
+      ],
+      "oracle": {
+        "spec/F004-imaging-block.test.ts": "9eb0249e365db5a48a661f7b7dea174e92ef6838aae52ff8f9ccba31e4532547"
+      },
       "attempts": 0,
       "depth": 0
     },
