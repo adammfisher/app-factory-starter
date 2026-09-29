@@ -1,5 +1,5 @@
 // The text block's device checks, run from the Block Lab against the real implementation.
-import { Image as NativeImage } from 'react-native';
+import { Asset } from 'expo-asset';
 
 import { expectResult, expectThat, type DeviceChecks } from '../../lab/check';
 import { downloadLanguage, isFailure, languages, recognize, translate, type Language } from './index';
@@ -10,11 +10,14 @@ async function languageList(): Promise<Language[]> {
 }
 
 export const deviceChecks: DeviceChecks = {
-  // Proves the recognizer runs on the phone; the app icon may hold no text, so no lines is a pass.
+  // Reads a printed invoice bundled with the lab. The asset is copied to a file first: in a
+  // development build it is served by the bundler, and the recognizer reads files only.
   recognize: async () => {
-    const source = NativeImage.resolveAssetSource(require('../../../assets/icon.png'));
-    const r = await recognize({ path: source.uri, width: source.width, height: source.height });
-    return expectThat(r, Array.isArray(r), 'Recognizer failed');
+    const asset = await Asset.fromModule(require('./lab-invoice.png')).downloadAsync();
+    const path = asset.localUri ?? asset.uri;
+    const r = await recognize({ path, width: asset.width ?? 0, height: asset.height ?? 0 });
+    const found = Array.isArray(r) && r.some((line) => line.includes('Invoice 4417'));
+    return expectThat(r, found, 'Expected a line reading "Invoice 4417"');
   },
   languages: languageList,
   translate: async () => {

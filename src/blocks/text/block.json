@@ -1,6 +1,13 @@
 {
   "name": "text",
-  "packages": [],
+  "packages": [
+    "expo-asset"
+  ],
   "env": [],
-  "deviceChecks": ["recognize", "languages", "translate", "download-language"]
+  "deviceChecks": [
+    "recognize",
+    "languages",
+    "translate",
+    "download-language"
+  ]
 }

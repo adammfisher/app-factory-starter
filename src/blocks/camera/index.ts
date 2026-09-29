@@ -35,6 +35,7 @@ async function realScanDocument(): Promise<Image[] | Failure> {
   } catch (error) {
     const code = codeOf(error);
     if (code === 'ERR_CANCELLED') return [];
+    if (code === 'ERR_NOT_SUPPORTED') return { error: 'not-available' };
     if (code === 'ERR_CAMERA_DENIED') return { error: 'camera-denied' };
     return { error: 'scan-failed' };
   }
