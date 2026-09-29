@@ -1,6 +1,0 @@
-{
-  "name": "ai",
-  "packages": ["expo-device", "expo-file-system", "expo-network", "llama.rn"],
-  "env": [],
-  "deviceChecks": ["status", "generate", "summarize", "download", "remove"]
-}

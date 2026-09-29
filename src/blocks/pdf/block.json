@@ -1,6 +1,0 @@
-{
-  "name": "pdf",
-  "packages": ["expo-file-system"],
-  "env": [],
-  "deviceChecks": []
-}

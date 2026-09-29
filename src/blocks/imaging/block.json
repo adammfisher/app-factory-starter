@@ -1,6 +1,0 @@
-{
-  "name": "imaging",
-  "packages": ["expo-file-system"],
-  "env": [],
-  "deviceChecks": []
-}

@@ -1,6 +1,0 @@
-{
-  "name": "storage",
-  "packages": ["expo-file-system"],
-  "env": [],
-  "deviceChecks": ["records", "settings", "files", "not-enough-space", "archive"]
-}

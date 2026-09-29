@@ -1,6 +1,4 @@
 import type { ExpoConfig } from 'expo/config';
-import fs from 'fs';
-import path from 'path';
 
 // Per app, change the identity block and the files in assets/. Nothing else is required.
 const identity = {
@@ -23,7 +21,7 @@ const identity = {
   supportsTablet: false,
 };
 
-const base: ExpoConfig = {
+const config: ExpoConfig = {
   name: identity.name,
   slug: identity.slug,
   version: identity.version,
@@ -37,7 +35,7 @@ const base: ExpoConfig = {
     supportsTablet: identity.supportsTablet,
     config: { usesNonExemptEncryption: false },
     // Required-reason APIs used by React Native and the linked Expo modules, copied from each
-    // package's PrivacyInfo.xcprivacy. A block's native packages declare theirs in its config.js.
+    // package's PrivacyInfo.xcprivacy. A new native package: add its entries here.
     privacyManifests: {
       NSPrivacyAccessedAPITypes: [
         {
@@ -103,53 +101,4 @@ const base: ExpoConfig = {
   ...(identity.easProjectId ? { extra: { eas: { projectId: identity.easProjectId } } } : {}),
 };
 
-type PrivacyEntry = { NSPrivacyAccessedAPIType: string; NSPrivacyAccessedAPITypeReasons: string[] };
-type BlockConfig = {
-  plugins?: ExpoConfig['plugins'];
-  ios?: { infoPlist?: Record<string, unknown>; privacyManifests?: { NSPrivacyAccessedAPITypes?: PrivacyEntry[] } };
-};
-
-// Each folder in src/blocks brings its config plugins, iOS permission texts and privacy manifest
-// entries in its config.js (CommonJS). Deleting a block's folder drops them from the build.
-function blockConfigs(): BlockConfig[] {
-  const blocksDir = path.join(__dirname, 'src', 'blocks');
-  if (!fs.existsSync(blocksDir)) return [];
-  return fs
-    .readdirSync(blocksDir, { withFileTypes: true })
-    .filter((e) => e.isDirectory() && !e.name.startsWith('.'))
-    .map((e) => path.join(blocksDir, e.name, 'config.js'))
-    .filter((file) => fs.existsSync(file))
-    .sort()
-    .map((file) => require(file) as BlockConfig);
-}
-
-function mergePrivacy(entries: PrivacyEntry[]): PrivacyEntry[] {
-  const reasons = new Map<string, string[]>();
-  for (const e of entries) {
-    const list = reasons.get(e.NSPrivacyAccessedAPIType) ?? [];
-    for (const r of e.NSPrivacyAccessedAPITypeReasons) if (!list.includes(r)) list.push(r);
-    reasons.set(e.NSPrivacyAccessedAPIType, list);
-  }
-  return [...reasons].map(([type, list]) => ({ NSPrivacyAccessedAPIType: type, NSPrivacyAccessedAPITypeReasons: list }));
-}
-
-function withBlocks(config: ExpoConfig, blocks: BlockConfig[]): ExpoConfig {
-  const privacy = config.ios?.privacyManifests?.NSPrivacyAccessedAPITypes ?? [];
-  return {
-    ...config,
-    plugins: [...(config.plugins ?? []), ...blocks.flatMap((b) => b.plugins ?? [])],
-    ios: {
-      ...config.ios,
-      infoPlist: Object.assign({}, config.ios?.infoPlist, ...blocks.map((b) => b.ios?.infoPlist ?? {})),
-      privacyManifests: {
-        ...config.ios?.privacyManifests,
-        NSPrivacyAccessedAPITypes: mergePrivacy([
-          ...privacy,
-          ...blocks.flatMap((b) => b.ios?.privacyManifests?.NSPrivacyAccessedAPITypes ?? []),
-        ]),
-      },
-    },
-  };
-}
-
-export default withBlocks(base, blockConfigs());
+export default config;

@@ -1,6 +1,0 @@
-{
-  "name": "files",
-  "packages": ["expo-document-picker"],
-  "env": [],
-  "deviceChecks": ["share", "share-cancel", "print", "print-cancel", "save-as", "save-as-cancel", "open", "open-skipped"]
-}
